@@ -1,0 +1,201 @@
+* {
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    }
+    body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    }
+    .container {
+    max-width: 400px;
+    width: 100%;
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+    }
+    .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    }
+    #user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #667eea;
+    }
+    .balance {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 30px;
+    font-weight: bold;
+    }
+    #user-points {
+    font-size: 1.3em;
+    margin: 0 5px;
+    }
+    .mining-area {
+    margin: 20px 0;
+    }
+    .miner-card {
+    background: linear-gradient(135deg, #5e72e4 0%, #825ee4 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    }
+    .miner-icon {
+    font-size: 4em;
+    margin-bottom: 10px;
+    animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    }
+    .mining-stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+    }
+    .stat {
+    background: rgba(255,255,255,0.2);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    }
+    .mine-btn {
+    background: #ffd700;
+    border: none;
+    color: #333;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: transform 0.2s;
+    }
+    .mine-btn:active {
+    transform: scale(0.95);
+    }
+    .mine-btn.mining {
+    background: #ff4444;
+    color: white;
+    animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+    }
+    .shop-section {
+    margin: 20px 0;
+    }
+    h3 {
+    color: #333;
+    margin-bottom: 10px;
+    }
+    .upgrades {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    }
+    .upgrade-card {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+    border: 1px solid #e0e0e0;
+    }
+    .upgrade-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .upgrade-card.special {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    }
+    .price {
+    font-weight: bold;
+    margin-top: 5px;
+    font-size: 0.9em;
+    }
+    .withdraw-section {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    }
+    #wallet-address {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.9em;
+    }
+    #withdraw-btn {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1.1em;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 5px;
+    }
+    #withdraw-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    }
+    .min-withdraw {
+    font-size: 0.8em;
+    color: #666;
+    }
+    /* Notificaciones */
+    .notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    z-index: 1000;
+    animation: slideDown 0.3s ease;
+    }
+    @keyframes slideDown {
+    from {
+    top: -50px;
+    opacity: 0;
+    }
+    to {
+    top: 20px;
+    opacity: 1;
+    }
+    }
+    .notification.success { background: #4caf50; }
+    .notification.error { background: #f44336; }
+    .notification.info { background: #2196f3; }
