@@ -9,9 +9,16 @@ let userData = null;
 let miningInterval = null;
 let isMining = false;
 // Inicializar Telegram WebApp
-const telegram = window.Telegram.WebApp;
-telegram.expand(); // Expande la app a pantalla completa
-telegram.enableClosingConfirmation(); // Pide confirmación antes de cerrar
+let telegram = null;
+
+if (window.Telegram && window.Telegram.WebApp) {
+    telegram = window.Telegram.WebApp;
+    telegram.expand();
+    telegram.ready();
+} else {
+    console.log("No está dentro de Telegram");
+}
+// Pide confirmación antes de cerrar
 // ============================================
 // FUNCIONES DE UTILIDAD
 // ============================================
@@ -368,3 +375,4 @@ window.buyEnergy = buyEnergy;
 window.buyTurbo = buyTurbo;
 
 window.withdraw = withdraw;
+
