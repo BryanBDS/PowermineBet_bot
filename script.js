@@ -226,7 +226,38 @@ async function buyUpgrade(tipo) {
         showNotification("Energía recargada", "success");
     }
 }
+// ============================================
+// REGENERACIÓN INTELIGENTE DE ENERGÍA
+// ============================================
 
+async function regenerateEnergy() {
+
+    if (!userData || !userData.ultimo_regen) return;
+
+    const now = Date.now();
+    const lastRegen = userData.ultimo_regen.toDate().getTime();
+
+    const diffMinutes = Math.floor((now - lastRegen) / 60000);
+
+    if (diffMinutes <= 0) return;
+
+    const energiaRecuperada = diffMinutes * 5; // 5 energía por minuto
+
+    const nuevaEnergia = Math.min(
+        userData.energia + energiaRecuperada,
+        userData.max_energia
+    );
+
+    if (nuevaEnergia > userData.energia) {
+
+        await db.collection("users").doc(userId).update({
+            energia: nuevaEnergia,
+            ultimo_regen: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        console.log("Energía regenerada:", energiaRecuperada);
+    }
+}
 // ============================================
 // RETIROS (REGISTRO)
 // ============================================
@@ -268,6 +299,7 @@ async function withdraw() {
 
 document.addEventListener("DOMContentLoaded", async () => {
     await initUser();
+    await regenerateEnergy();
 });
 
 document.getElementById("mine-btn")
@@ -275,4 +307,5 @@ document.getElementById("mine-btn")
 
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;    
+
 
