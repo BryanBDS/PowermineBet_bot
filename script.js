@@ -44,9 +44,31 @@ document.getElementById('user-name').textContent = tgUser.first_name || 'Usuario
 document.getElementById('user-avatar').src = tgUser.photo_url ||
 'https://via.placeholder.com/50';
 // Buscar usuario en Firebase o crearlo
-const userRef = database.ref('usuarios/' + userId);
-const snapshot = await userRef.once('value');
-if (!snapshot.exists()) {
+const userRef = db.collection('users').doc(userId);
+const doc = await userRef.get();
+
+if (!doc.exists) {
+
+    const newUser = {
+        nombre: tgUser.first_name || '',
+        username: tgUser.username || '',
+        puntos: 1000,
+        nivel: 1,
+        energia: 100,
+        max_energia: 100,
+        tasa_minado: 500,
+        ultimo_minado: firebase.firestore.FieldValue.serverTimestamp(),
+        fecha_registro: firebase.firestore.FieldValue.serverTimestamp(),
+        referido_por: null,
+        wallet_ton: ''
+    };
+
+    await userRef.set(newUser);
+    userData = newUser;
+
+} else {
+    userData = doc.data();
+}
 // Usuario nuevo - crearlo
 const newUser = {
 nombre: tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : ''),
@@ -344,4 +366,5 @@ console.error('Error regenerando energía:', error);
 window.buyUpgrade = buyUpgrade;
 window.buyEnergy = buyEnergy;
 window.buyTurbo = buyTurbo;
+
 window.withdraw = withdraw;
