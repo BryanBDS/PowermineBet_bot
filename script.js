@@ -77,7 +77,8 @@ async function initUser() {
                 tasa_minado: 500,
                 referido_por: null,
                 wallet_ton: "",
-                fecha_registro: firebase.firestore.FieldValue.serverTimestamp()
+                fecha_registro: firebase.firestore.FieldValue.serverTimestamp(), 
+                ultimo_regen: firebase.firestore.FieldValue.serverTimestamp(), 
             };
 
             await userRef.set(newUser);
@@ -274,3 +275,4 @@ document.getElementById("mine-btn")
 
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;    
+
