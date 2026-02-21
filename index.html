@@ -1,103 +1,104 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <h1 style="color:white;">APP CARGANDO...</h1>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Bitcoin Miner Pro</title>
-        <link rel="stylesheet" href="style.css">
-        <!-- <link rel="stylesheet" href="style.css"> -->
-        <!-- SDK de Telegram -->
-        <script src="https://telegram.org/js/telegram-web-app.js"></script>
-        <!-- SDK de Firebase -->
-        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-        </head>
-        <body>
-            <div class="container">
-            <!-- Header con información del usuario -->
-            <div class="header">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Miner Pro</title>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <!-- Firebase v8 + Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+</head>
+
+<body>
+
+    <h1 style="color:white; text-align:center;">APP CARGANDO...</h1>
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="header">
             <div class="user-info">
-            <img id="user-avatar" src="" alt="Avatar">
-            <div>
-            <h3 id="user-name">Cargando...</h3>
-            <p id="user-level">Nivel 1</p>
+                <img id="user-avatar" src="" alt="Avatar">
+                <div>
+                    <h3 id="user-name">Cargando...</h3>
+                    <p id="user-level">Nivel 1</p>
+                </div>
             </div>
-            </div>
+
             <div class="balance">
-            <span class="btc-icon">₿</span>
-            <span id="user-points">0</span>
-            <span class="points-label">puntos</span>
+                <span class="btc-icon">₿</span>
+                <span id="user-points">0</span>
+                <span class="points-label">puntos</span>
             </div>
+        </div>
+
+        <!-- MINERÍA -->
+        <div class="mining-area">
+            <div class="miner-card">
+                <div class="miner-icon">⛏️</div>
+
+                <div class="mining-stats">
+                    <div class="stat">
+                        <span>Tasa:</span>
+                        <span id="mining-rate">500</span>
+                        <span>pts/seg</span>
+                    </div>
+
+                    <div class="stat">
+                        <span>Energía:</span>
+                        <span id="energy">100</span>
+                        <span>/ 100</span>
+                    </div>
+                </div>
+
+                <button class="mine-btn" id="mine-btn" disabled>
+                    ⛏️ Iniciar Minería
+                </button>
             </div>
-            <!-- Área de minería -->
-            <div class="mining-area">
-            <div class="miner-card" id="miner-card">
-            <div class="miner-icon">⛏️</div>
-            <div class="mining-stats">
-            <div class="stat">
-            <span>Tasa: </span>
-            <span id="mining-rate">500</span>
-            <span>pts/seg</span>
-            </div>
-            <div class="stat">
-            <span>Energía: </span>
-            <span id="energy">100</span>
-            <span>/ 100</span>
-            </div>
-            </div>
-            <button class="mine-btn" id="mine-btn" disabled>⛏️ Iniciar Minería</button>
-            </div>
-            </div>
-            <!-- Tienda de mejoras -->
-            <div class="shop-section">
+        </div>
+
+        <!-- MEJORAS -->
+        <div class="shop-section">
             <h3>Mejoras</h3>
+
             <div class="upgrades">
-            <div class="upgrade-card" onclick="buyUpgrade('nivel')">
-            <h4>Subir de Nivel</h4>
-            <p>Aumenta tasa de minado</p>
-            <p class="price">💰 1000 pts</p>
-            </div>
-            <div class="upgrade-card" onclick="buyEnergy()">
-            <h4>Recargar Energía</h4>
-            <p>Recupera energía al máximo</p>
-            <p class="price">⚡ 100 pts</p>
-            </div>
-            <div class="upgrade-card special" onclick="buyTurbo()">
-            <h4>🚀 Turbo</h4>
-            <p>Velocidad x2 por 1 hora</p>
-            <p class="price">⭐ 50 Estrellas</p>
-            </div>
-            </div>
-            </div>
-            <!-- Sección de retiros -->
-            <div class="withdraw-section">
-            <h3>Retirar a Bitcoin</h3>
-            <input type="text" id="wallet-address" placeholder="Tu dirección TON (EQD...)" />
-            <button onclick="withdraw()" id="withdraw-btn">Retirar</button>
-            <p class="min-withdraw">Mínimo: 50,000 puntos</p>
-            </div>
-            </div>
-            <script src="https://telegram.org/js/telegram-web-app.js"></script>
+                <div class="upgrade-card" onclick="buyUpgrade('nivel')">
+                    <h4>Subir de Nivel</h4>
+                    <p>💰 1000 pts</p>
+                </div>
 
-            <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-            <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+                <div class="upgrade-card" onclick="buyUpgrade('energia')">
+                    <h4>Recargar Energía</h4>
+                    <p>⚡ 100 pts</p>
+                </div>
+            </div>
+        </div>
 
-            <script src="firebase-config.js"></script>
-            <script src="script.js"></script>
+        <!-- RETIRO -->
+        <div class="withdraw-section">
+            <h3>Retirar</h3>
+            <input type="text" id="wallet-address"
+                placeholder="Dirección TON (EQD...)" />
+            <button onclick="withdraw()">Retirar</button>
+            <p>Mínimo: 50,000 puntos</p>
+        </div>
 
-            <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-            <script>eruda.init();</script>
+    </div>
 
-            <script>
-            alert("HTML CARGADO");
-            </script>
-            </body>
-    
+    <!-- CONFIG FIREBASE -->
+    <script src="firebase-config.js"></script>
+
+    <!-- SCRIPT PRINCIPAL -->
+    <script src="script.js"></script>
+
+</body>
+
 </html>
-
-
-
-
-
-
