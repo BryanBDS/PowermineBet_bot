@@ -89,10 +89,11 @@ async function initUser() {
         } else {
             userData = doc.data();
         }
-
-        updateUI();
         
-        document.getElementById("mine-btn").disabled = false;
+        updateUI();
+
+        // 🔥 Ocultar mensaje APP CARGANDO
+        document.getElementById("loader").style.display = "none";
 
         userRef.onSnapshot((doc) => {
             if (doc.exists) {
@@ -309,6 +310,7 @@ document.getElementById("mine-btn")
 
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;    
+
 
 
 
