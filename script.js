@@ -91,6 +91,8 @@ async function initUser() {
         }
 
         updateUI();
+        
+        document.getElementById("mine-btn").disabled = false;
 
         userRef.onSnapshot((doc) => {
             if (doc.exists) {
@@ -307,5 +309,6 @@ document.getElementById("mine-btn")
 
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;    
+
 
 
