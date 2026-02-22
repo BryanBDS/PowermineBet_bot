@@ -13,6 +13,18 @@ let isMining = false;
 let telegram = null;
 
 // ============================================
+// LOGIN ANÓNIMO FIREBASE
+// ============================================
+
+async function loginAnonymous() {
+    try {
+        await firebase.auth().signInAnonymously();
+        console.log("Login anónimo exitoso");
+    } catch (error) {
+        console.error("Error login anónimo:", error);
+    }
+}
+// ============================================
 // TELEGRAM INIT (SEGURO)
 // ============================================
 
@@ -310,6 +322,7 @@ document.getElementById("mine-btn")
 
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;    
+
 
 
 
