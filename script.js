@@ -66,7 +66,7 @@ async function initUser() {
         }
 
         const tgUser = telegram.initDataUnsafe.user;
-        userId = tgUser.id.toString();
+        userId = firebase.auth().currentUser.uid;
 
         document.getElementById("user-name").textContent =
             tgUser.first_name || "Usuario";
@@ -323,6 +323,7 @@ document.getElementById("mine-btn")
 
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;    
+
 
 
 
