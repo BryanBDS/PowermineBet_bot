@@ -4,7 +4,7 @@
 // firebase-config.js
 
 const firebaseConfig = {
-    apiKey: "7866575006:AAGXX3I9UtB60UHAc4IWuEI6UZZUFKlH22w",
+    apiKey: "AIzaSyA-dKqUnN2-Czy4OU0j66h4FmRn8qRNfoI",
     authDomain: "powerminebet-bot.firebaseapp.com",
     projectId: "powerminebet-bot",
     storageBucket: "powerminebet-bot.appspot.com",
@@ -16,3 +16,4 @@ firebase.initializeApp(firebaseConfig);
 
 // Inicializar Firestore
 const db = firebase.firestore();
+
