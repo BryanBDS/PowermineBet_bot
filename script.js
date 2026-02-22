@@ -313,7 +313,8 @@ async function withdraw() {
 // ============================================
 
 document.addEventListener("DOMContentLoaded", async () => {
-    await initUser();
+    await loginAnonymous();   // 🔐 primero autenticamos
+    await initUser();         // luego cargamos usuario
     await regenerateEnergy();
 });
 
@@ -322,6 +323,7 @@ document.getElementById("mine-btn")
 
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;    
+
 
 
 
