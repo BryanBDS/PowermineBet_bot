@@ -16,14 +16,6 @@ let telegram = null;
 // LOGIN ANÓNIMO FIREBASE
 // ============================================
 
-async function loginAnonymous() {
-    try {
-        await firebase.auth().signInAnonymously();
-        console.log("Login anónimo exitoso");
-    } catch (error) {
-        console.error("Error login anónimo:", error);
-    }
-}
 // ============================================
 // TELEGRAM INIT (SEGURO)
 // ============================================
@@ -312,10 +304,20 @@ async function withdraw() {
 // EVENTOS
 // ============================================
 
-document.addEventListener("DOMContentLoaded", async () => {
-    await loginAnonymous();   // 🔐 primero autenticamos
-    await initUser();         // luego cargamos usuario
-    await regenerateEnergy();
+document.addEventListener("DOMContentLoaded", () => {
+
+    firebase.auth().onAuthStateChanged(async (user) => {
+
+        if (user) {
+            console.log("Usuario autenticado:", user.uid);
+            await initUser();
+            await regenerateEnergy();
+        } else {
+            await firebase.auth().signInAnonymously();
+        }
+
+    });
+
 });
 
 document.getElementById("mine-btn")
@@ -323,6 +325,7 @@ document.getElementById("mine-btn")
 
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;    
+
 
 
 
