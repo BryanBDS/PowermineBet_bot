@@ -111,9 +111,21 @@ async function initUser(authUser) {
             await userRef.set(newUser);
             userData = newUser;
 
-        } else {
-            userData = doc.data();
-        }
+      } else {
+    userData = doc.data();
+
+    // MIGRACIÓN AUTOMÁTICA
+    await userRef.update({
+        balance: userData.balance ?? userData.puntos ?? 0,
+        energy: userData.energy ?? userData.energia ?? 100,
+        maxEnergy: userData.maxEnergy ?? userData.max_energia ?? 100,
+        stage: userData.stage ?? 1,
+        prestigePoints: userData.prestigePoints ?? 0,
+        prestigeMultiplier: userData.prestigeMultiplier ?? 1,
+        totalEarned: userData.totalEarned ?? userData.puntos ?? 0,
+        lastUpdate: userData.lastUpdate ?? Date.now()
+    });
+}  
 
         updateUI();
         document.getElementById("loader").style.display = "none";
@@ -141,7 +153,7 @@ function updateUI() {
     if (!userData) return;
 
     document.getElementById("user-points").textContent =
-        formatNumber(userData.puntos);
+    formatNumber(userData.balance ?? userData.puntos);
 
     document.getElementById("user-level").textContent =
         `Nivel ${userData.nivel}`;
@@ -150,7 +162,7 @@ function updateUI() {
         userData.tasa_minado;
 
     document.getElementById("energy").textContent =
-        userData.energia;
+    userData.energy ?? userData.energia;
 
     const mineBtn = document.getElementById("mine-btn");
 
@@ -323,6 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Exponer funciones
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
+
 
 
 
