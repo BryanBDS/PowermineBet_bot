@@ -174,7 +174,7 @@ function updateUI() {
         userData.tasa_minado;
 
     document.getElementById("energy").textContent =
-    userData.energy ?? userData.energia;
+    userData.energy;
 
     const mineBtn = document.getElementById("mine-btn");
 
@@ -218,7 +218,7 @@ async function startMining() {
         return;
     }
 
-    if (userData.energia <= 0) {
+    if (userData.energy <= 0) {
         showNotification("Sin energía", "error");
         return;
     }
@@ -230,19 +230,19 @@ async function startMining() {
 
     miningInterval = setInterval(async () => {
 
-        if (!userData || userData.energia <= 0) {
+        if (!userData || userData.energy <= 0) {
             stopMining();
             showNotification("Energía agotada", "error");
             return;
         }
 
-        const ganancia = userData.tasa_minado;
+        const ganancia = calculateProduction();
 
         await userRef.update({
-            puntos: firebase.firestore.FieldValue.increment(ganancia),
-            energia: firebase.firestore.FieldValue.increment(-1),
-            ultimo_minado: firebase.firestore.FieldValue.serverTimestamp()
-        });
+    balance: firebase.firestore.FieldValue.increment(ganancia),
+    energy: firebase.firestore.FieldValue.increment(-1),
+    lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
+});
 
     }, 5000);
 }
@@ -360,6 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Exponer funciones
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
+
 
 
 
