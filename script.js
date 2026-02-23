@@ -225,6 +225,26 @@ async function buyBuilding(type) {
     showNotification("Edificio mejorado 🚀", "success");
 }
 
+if (userData?.buildings) {
+
+    for (let key in userData.buildings) {
+
+        const b = userData.buildings[key];
+
+        const levelElement = document.getElementById(`${key}-level`);
+        const costElement = document.getElementById(`${key}-cost`);
+
+        if (levelElement) {
+            levelElement.textContent = b.level;
+        }
+
+        if (costElement) {
+            const cost = b.baseCost * (b.level + 1);
+            costElement.textContent = formatNumber(cost);
+        }
+    }
+}
+
 
 // ============================================
 // MINERÍA
@@ -385,6 +405,7 @@ document.addEventListener("DOMContentLoaded", () => {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
