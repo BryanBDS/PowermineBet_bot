@@ -202,6 +202,30 @@ function calculateProduction() {
     return total * (userData.prestigeMultiplier ?? 1);
 }
 
+async function buyBuilding(type) {
+
+    if (!userData?.buildings?.[type]) return;
+
+    const building = userData.buildings[type];
+
+    const cost = building.baseCost * (building.level + 1);
+
+    if (userData.balance < cost) {
+        showNotification("Balance insuficiente", "error");
+        return;
+    }
+
+    const userRef = db.collection("users").doc(userId);
+
+    await userRef.update({
+        balance: firebase.firestore.FieldValue.increment(-cost),
+        [`buildings.${type}.level`]: firebase.firestore.FieldValue.increment(1)
+    });
+
+    showNotification("Edificio mejorado 🚀", "success");
+}
+
+
 // ============================================
 // MINERÍA
 // ============================================
@@ -360,7 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Exponer funciones
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
-
+window.buyBuilding = buyBuilding;
 
 
 
