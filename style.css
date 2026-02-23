@@ -198,4 +198,20 @@
     }
     .notification.success { background: #4caf50; }
     .notification.error { background: #f44336; }
+
     .notification.info { background: #2196f3; }
+   
+ /*============================================
+   EDIFICIOS
+  ============================================ */
+
+.buildings-section {
+    margin-top: 20px;
+}
+
+.building-card {
+    background: #1e1e1e;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
