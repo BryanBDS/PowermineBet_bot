@@ -189,6 +189,19 @@ function updateUI() {
     }
 }
 
+function calculateProduction() {
+    if (!userData?.buildings) return 0;
+
+    let total = 0;
+
+    for (let key in userData.buildings) {
+        const b = userData.buildings[key];
+        total += b.level * b.baseProduction;
+    }
+
+    return total * (userData.prestigeMultiplier ?? 1);
+}
+
 // ============================================
 // MINERÍA
 // ============================================
@@ -347,6 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Exponer funciones
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
+
 
 
 
