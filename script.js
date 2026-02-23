@@ -70,17 +70,43 @@ async function initUser(authUser) {
         if (!doc.exists) {
 
             const newUser = {
-                nombre: tgUser.first_name || "",
-                username: tgUser.username || "",
-                puntos: 1000,
-                nivel: 1,
-                energia: 100,
-                max_energia: 100,
-                tasa_minado: 500,
-                wallet_ton: "",
-                fecha_registro: firebase.firestore.FieldValue.serverTimestamp(),
-                ultimo_regen: firebase.firestore.FieldValue.serverTimestamp()
-            };
+    // Datos básicos
+    nombre: tgUser.first_name || "",
+    username: tgUser.username || "",
+
+    // Economía nueva base
+    balance: 1000,
+    energy: 100,
+    maxEnergy: 100,
+    stage: 1,
+    prestigePoints: 0,
+    prestigeMultiplier: 1,
+    totalEarned: 1000,
+    lastUpdate: Date.now(),
+
+    // Sistema semanal
+    weekStats: {
+        earnWeek: 0,
+        prodAverage: 0,
+        prestigeWeek: 0,
+        stageProgress: 0,
+        weekId: ""
+    },
+
+    // Preparado para edificios
+    buildings: {},
+
+    // Compatibilidad temporal (NO borrar aún)
+    puntos: 1000,
+    nivel: 1,
+    energia: 100,
+    max_energia: 100,
+    tasa_minado: 500,
+
+    wallet_ton: "",
+    fecha_registro: firebase.firestore.FieldValue.serverTimestamp(),
+    ultimo_regen: firebase.firestore.FieldValue.serverTimestamp()
+};
 
             await userRef.set(newUser);
             userData = newUser;
@@ -297,6 +323,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Exponer funciones
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
+
 
 
 
