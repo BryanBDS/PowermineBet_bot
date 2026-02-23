@@ -399,12 +399,33 @@ document.addEventListener("DOMContentLoaded", () => {
         mineBtn.addEventListener("click", startMining);
     }
 
+    // ============================================
+// PRODUCCIÓN AUTOMÁTICA (IDLE)
+// ============================================
+
+setInterval(async () => {
+
+    if (!userData || !userId) return;
+
+    const production = calculateProduction();
+
+    if (production <= 0) return;
+
+    const userRef = db.collection("users").doc(userId);
+
+    await userRef.update({
+        balance: firebase.firestore.FieldValue.increment(production)
+    });
+
+}, 5000);
+
 });
 
 // Exponer funciones
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
