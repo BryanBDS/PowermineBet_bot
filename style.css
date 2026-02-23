@@ -224,17 +224,18 @@
 }
 
 .building-card button {
-    margin-top: 8px;
-    padding: 8px 14px;
+    margin-top: 10px;
+    padding: 10px 18px;
     border: none;
-    border-radius: 8px;
-    background: linear-gradient(45deg, #ffcc00, #ff9900);
+    border-radius: 10px;
+    background: #ffcc00;
     color: #000;
     font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s ease;
+    font-size: 14px;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
 }
 
-.building-card button:hover {
-    transform: scale(1.05);
+.building-card button:active {
+    transform: scale(0.95);
 }
