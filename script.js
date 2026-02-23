@@ -94,7 +94,10 @@ async function initUser(authUser) {
     },
 
     // Preparado para edificios
-    buildings: {},
+    buildings: { miner1: { level: 0, baseCost: 50, baseProduction: 1 },
+            miner2: { level: 0, baseCost: 200, baseProduction: 5 },
+            miner3: { level: 0, baseCost: 1000, baseProduction: 25 }
+                },
 
     // Compatibilidad temporal (NO borrar aún)
     puntos: 1000,
@@ -124,7 +127,16 @@ async function initUser(authUser) {
         prestigeMultiplier: userData.prestigeMultiplier ?? 1,
         totalEarned: userData.totalEarned ?? userData.puntos ?? 0,
         lastUpdate: userData.lastUpdate ?? Date.now()
-    });
+        buildings: userData.buildings ?? {
+            miner1: { level: 0, baseCost: 50, baseProduction: 1 },
+            miner2: { level: 0, baseCost: 200, baseProduction: 5 },
+            miner3: { level: 0, baseCost: 1000, baseProduction: 25 }
+         }
+
+      }, { merge: true });
+        
+    }
+                
 }  
 
         updateUI();
@@ -335,6 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Exponer funciones
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
+
 
 
 
