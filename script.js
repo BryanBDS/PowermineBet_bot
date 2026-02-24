@@ -178,9 +178,9 @@ function updateUI() {
     }
 
     const energyBar = document.getElementById("energy-bar");
-const energyText = document.getElementById("energy-text");
+    const energyText = document.getElementById("energy-text");
 
-if (energyBar && energyText) {
+    if (energyBar && energyText) {
 
     const maxEnergy = userData.maxEnergy ?? 100;
     const currentEnergy = userData.energy ?? 0;
@@ -189,7 +189,7 @@ if (energyBar && energyText) {
 
     energyBar.style.width = percent + "%";
     energyText.textContent = `${currentEnergy} / ${maxEnergy}`;
-}
+    }
 
     const mineBtn = document.getElementById("mine-btn");
 
@@ -202,7 +202,38 @@ if (energyBar && energyText) {
             mineBtn.classList.remove("mining");
         }
     }
+    
+    const minerCard = document.querySelector(".miner-card");
 
+    if (minerCard) {
+    if (isMining) {
+        minerCard.classList.add("mining");
+    } else {
+        minerCard.classList.remove("mining");
+    }
+
+        // ============================
+// ESTADÍSTICAS AVANZADAS
+// ============================
+
+const totalEarnedEl = document.getElementById("total-earned");
+const totalBuildingsEl = document.getElementById("total-buildings");
+
+if (totalEarnedEl) {
+    totalEarnedEl.textContent = formatNumber(userData.totalEarned ?? 0);
+}
+
+if (totalBuildingsEl && userData.buildings) {
+
+    let totalBuildings = 0;
+
+    for (let key in userData.buildings) {
+        totalBuildings += userData.buildings[key].level;
+    }
+
+    totalBuildingsEl.textContent = totalBuildings;
+}
+}
     // ============================================
     // BUILDINGS
     // ============================================
@@ -480,6 +511,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
