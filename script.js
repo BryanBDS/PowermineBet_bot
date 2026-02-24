@@ -240,7 +240,23 @@ function updateUI() {
     }
 }
 
+// ============================================
+// CALCULAR PRODUCCIÓN TOTAL
+// ============================================
 
+function calculateProduction() {
+
+    if (!userData?.buildings) return 0;
+
+    let total = 0;
+
+    for (let key in userData.buildings) {
+        const b = userData.buildings[key];
+        total += b.level * b.baseProduction;
+    }
+
+    return total * (userData.prestigeMultiplier ?? 1);
+}
 // ============================================
 // MINERÍA
 // ============================================
@@ -416,10 +432,37 @@ setInterval(async () => {
 
 });
 
+// ============================================
+// COMPRAR EDIFICIO
+// ============================================
+
+async function buyBuilding(key) {
+
+    if (!userData || !userData.buildings[key]) return;
+
+    const building = userData.buildings[key];
+    const cost = building.baseCost * (building.level + 1);
+
+    if (userData.balance < cost) {
+        showNotification("Balance insuficiente", "error");
+        return;
+    }
+
+    const userRef = db.collection("users").doc(userId);
+
+    await userRef.update({
+        balance: firebase.firestore.FieldValue.increment(-cost),
+        [`buildings.${key}.level`]: building.level + 1
+    });
+
+    showNotification("Edificio mejorado 🚀", "success");
+}
+
 // Exponer funciones
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
