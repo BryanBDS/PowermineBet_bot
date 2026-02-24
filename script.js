@@ -233,14 +233,28 @@ if (userData?.buildings) {
 
         const levelElement = document.getElementById(`${key}-level`);
         const costElement = document.getElementById(`${key}-cost`);
+        const button = document.querySelector(`button[onclick="buyBuilding('${key}')"]`);
+
+        const cost = b.baseCost * (b.level + 1);
 
         if (levelElement) {
             levelElement.textContent = b.level;
         }
 
         if (costElement) {
-            const cost = b.baseCost * (b.level + 1);
             costElement.textContent = formatNumber(cost);
+        }
+
+        if (button) {
+            if (userData.balance >= cost) {
+                button.classList.remove("btn-disabled");
+                button.classList.add("btn-active");
+                button.disabled = false;
+            } else {
+                button.classList.remove("btn-active");
+                button.classList.add("btn-disabled");
+                button.disabled = true;
+            }
         }
     }
 }
@@ -425,6 +439,7 @@ setInterval(async () => {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
