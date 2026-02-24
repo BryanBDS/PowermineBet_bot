@@ -165,7 +165,7 @@ function updateUI() {
     if (!userData) return;
 
     document.getElementById("user-points").textContent =
-    formatNumber(userData.balance ?? userData.puntos);
+        formatNumber(userData.balance ?? userData.puntos);
 
     document.getElementById("user-level").textContent =
         `Nivel ${userData.nivel}`;
@@ -174,104 +174,65 @@ function updateUI() {
         userData.tasa_minado;
 
     document.getElementById("energy").textContent =
-    userData.energy;
+        userData.energy;
 
     const mineBtn = document.getElementById("mine-btn");
 
-    if (!mineBtn) return;
-
-    if (isMining) {
-        mineBtn.textContent = "⛏️ Minando...";
-        mineBtn.classList.add("mining");
-    } else {
-        mineBtn.textContent = "⛏️ Iniciar Minería";
-        mineBtn.classList.remove("mining");
-    }
-}
-
-function calculateProduction() {
-    if (!userData?.buildings) return 0;
-
-    let total = 0;
-
-    for (let key in userData.buildings) {
-        const b = userData.buildings[key];
-        total += b.level * b.baseProduction;
+    if (mineBtn) {
+        if (isMining) {
+            mineBtn.textContent = "⛏️ Minando...";
+            mineBtn.classList.add("mining");
+        } else {
+            mineBtn.textContent = "⛏️ Iniciar Minería";
+            mineBtn.classList.remove("mining");
+        }
     }
 
-    return total * (userData.prestigeMultiplier ?? 1);
-}
+    // ============================================
+    // BUILDINGS
+    // ============================================
 
-async function buyBuilding(type) {
+    if (userData?.buildings) {
 
-    if (!userData?.buildings?.[type]) return;
+        for (let key in userData.buildings) {
 
-    const building = userData.buildings[type];
+            const b = userData.buildings[key];
 
-    const cost = building.baseCost * (building.level + 1);
+            const levelElement = document.getElementById(`${key}-level`);
+            const costElement = document.getElementById(`${key}-cost`);
+            const productionElement = document.getElementById(`${key}-production`);
+            const button = document.querySelector(`button[onclick="buyBuilding('${key}')"]`);
 
-    if (userData.balance < cost) {
-        showNotification("Balance insuficiente", "error");
-        return;
-    }
+            const cost = b.baseCost * (b.level + 1);
+            const productionPerSecond = b.level * b.baseProduction;
 
-    const userRef = db.collection("users").doc(userId);
+            if (levelElement) levelElement.textContent = b.level;
+            if (costElement) costElement.textContent = formatNumber(cost);
+            if (productionElement) productionElement.textContent = formatNumber(productionPerSecond);
 
-    await userRef.update({
-        balance: firebase.firestore.FieldValue.increment(-cost),
-        [`buildings.${type}.level`]: firebase.firestore.FieldValue.increment(1)
-    });
-
-    showNotification("Edificio mejorado 🚀", "success");
-}
-
-if (userData?.buildings) {
-
-    for (let key in userData.buildings) {
-
-        const productionElement = document.getElementById(`${key}-production`);
-
-        const productionPerSecond = b.level * b.baseProduction;
-
-        if (productionElement) {
-        productionElement.textContent = formatNumber(productionPerSecond);
-        }
-        
-        const b = userData.buildings[key];
-
-        const levelElement = document.getElementById(`${key}-level`);
-        const costElement = document.getElementById(`${key}-cost`);
-        const button = document.querySelector(`button[onclick="buyBuilding('${key}')"]`);
-
-        const cost = b.baseCost * (b.level + 1);
-
-        if (levelElement) {
-            levelElement.textContent = b.level;
-        }
-
-        if (costElement) {
-            costElement.textContent = formatNumber(cost);
-        }
-
-
-        const totalProductionElement = document.getElementById("total-production");
-
-if (totalProductionElement) {
-    const total = calculateProduction();
-    totalProductionElement.textContent = formatNumber(total);
-}
-        
-        if (button) {
-            if (userData.balance >= cost) {
-                button.classList.remove("btn-disabled");
-                button.classList.add("btn-active");
-                button.disabled = false;
-            } else {
-                button.classList.remove("btn-active");
-                button.classList.add("btn-disabled");
-                button.disabled = true;
+            if (button) {
+                if (userData.balance >= cost) {
+                    button.classList.remove("btn-disabled");
+                    button.classList.add("btn-active");
+                    button.disabled = false;
+                } else {
+                    button.classList.remove("btn-active");
+                    button.classList.add("btn-disabled");
+                    button.disabled = true;
+                }
             }
         }
+    }
+
+    // ============================================
+    // PRODUCCIÓN TOTAL
+    // ============================================
+
+    const totalProductionElement = document.getElementById("total-production");
+
+    if (totalProductionElement) {
+        const total = calculateProduction();
+        totalProductionElement.textContent = formatNumber(total);
     }
 }
 
@@ -455,6 +416,7 @@ setInterval(async () => {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
