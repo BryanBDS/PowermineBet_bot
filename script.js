@@ -56,7 +56,7 @@ async function initUser(authUser) {
         }
 
         const tgUser = telegram.initDataUnsafe.user;
-        userId = authUser.uid;
+        userId = tgUser.id.toString();
 
         document.getElementById("user-name").textContent =
             tgUser.first_name || "Usuario";
@@ -393,22 +393,29 @@ async function withdraw() {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    firebase.auth().onAuthStateChanged(async (user) => {
-
-        if (user) {
-            console.log("Usuario autenticado:", user.uid);
-            await initUser(user);
-        } else {
-            await firebase.auth().signInAnonymously();
-        }
-
-    });
+    initUser();
 
     const mineBtn = document.getElementById("mine-btn");
-
     if (mineBtn) {
         mineBtn.addEventListener("click", startMining);
     }
+
+    setInterval(async () => {
+
+        if (!userData || !userId) return;
+
+        const production = calculateProduction();
+        if (production <= 0) return;
+
+        const userRef = db.collection("users").doc(userId);
+
+        await userRef.update({
+            balance: firebase.firestore.FieldValue.increment(production)
+        });
+
+    }, 5000);
+
+});
 
     // ============================================
 // PRODUCCIÓN AUTOMÁTICA (IDLE)
@@ -462,6 +469,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
