@@ -177,8 +177,19 @@ function updateUI() {
     miningRateEl.textContent = userData.tasa_minado ?? 0;
     }
 
-    document.getElementById("energy").textContent =
-        userData.energy;
+    const energyBar = document.getElementById("energy-bar");
+const energyText = document.getElementById("energy-text");
+
+if (energyBar && energyText) {
+
+    const maxEnergy = userData.maxEnergy ?? 100;
+    const currentEnergy = userData.energy ?? 0;
+
+    const percent = (currentEnergy / maxEnergy) * 100;
+
+    energyBar.style.width = percent + "%";
+    energyText.textContent = `${currentEnergy} / ${maxEnergy}`;
+}
 
     const mineBtn = document.getElementById("mine-btn");
 
@@ -469,6 +480,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
