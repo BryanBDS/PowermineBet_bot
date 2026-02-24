@@ -252,3 +252,8 @@
     background: #555 !important;
     color: #999 !important;
 }
+
+   
+.building-card span {
+    font-weight: bold;
+}
