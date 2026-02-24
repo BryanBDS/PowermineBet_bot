@@ -229,6 +229,14 @@ if (userData?.buildings) {
 
     for (let key in userData.buildings) {
 
+        const productionElement = document.getElementById(`${key}-production`);
+
+        const productionPerSecond = b.level * b.baseProduction;
+
+        if (productionElement) {
+        productionElement.textContent = formatNumber(productionPerSecond);
+        }
+        
         const b = userData.buildings[key];
 
         const levelElement = document.getElementById(`${key}-level`);
@@ -439,6 +447,7 @@ setInterval(async () => {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
