@@ -239,3 +239,16 @@
 .building-card button:active {
     transform: scale(0.95);
 }
+/* ============================================
+   BOTONES DINÁMICOS
+============================================ */
+
+.btn-active {
+    background: #00c853 !important;
+    color: white !important;
+}
+
+.btn-disabled {
+    background: #555 !important;
+    color: #999 !important;
+}
