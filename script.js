@@ -167,11 +167,15 @@ function updateUI() {
     document.getElementById("user-points").textContent =
         formatNumber(userData.balance ?? userData.puntos);
 
-    document.getElementById("user-level").textContent =
-        `Nivel ${userData.nivel}`;
+    const levelEl = document.getElementById("user-level");
+    if (levelEl) {
+    levelEl.textContent = `Nivel ${userData.nivel ?? 1}`;
+    }
 
-    document.getElementById("mining-rate").textContent =
-        userData.tasa_minado;
+    const miningRateEl = document.getElementById("mining-rate");
+    if (miningRateEl) {
+    miningRateEl.textContent = userData.tasa_minado ?? 0;
+    }
 
     document.getElementById("energy").textContent =
         userData.energy;
@@ -416,6 +420,7 @@ setInterval(async () => {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
