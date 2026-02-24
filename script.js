@@ -478,7 +478,6 @@ setInterval(async () => {
 
 }, 5000);
 
-});
 
 // ============================================
 // COMPRAR EDIFICIO
@@ -510,6 +509,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
