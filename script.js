@@ -253,6 +253,14 @@ if (userData?.buildings) {
             costElement.textContent = formatNumber(cost);
         }
 
+
+        const totalProductionElement = document.getElementById("total-production");
+
+if (totalProductionElement) {
+    const total = calculateProduction();
+    totalProductionElement.textContent = formatNumber(total);
+}
+        
         if (button) {
             if (userData.balance >= cost) {
                 button.classList.remove("btn-disabled");
@@ -447,6 +455,7 @@ setInterval(async () => {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
