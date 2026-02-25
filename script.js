@@ -374,8 +374,9 @@ async function checkLevelUp() {
 
         showLevelUpScreen(currentLevel + 1);
         showNotification("🎉 ¡Subiste de nivel!", "success");
+        
         await addXP(10);
-
+        
         const sound = document.getElementById("level-up-sound");
         if (sound) {
             sound.currentTime = 0;
@@ -718,6 +719,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
