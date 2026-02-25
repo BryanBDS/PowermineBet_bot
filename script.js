@@ -91,6 +91,8 @@ async function initUser() {
     energy: 100,
     maxEnergy: 100,
     stage: 1,
+    xp: 0,
+    xpRequired: 100,            
     prestigePoints: 0,
     prestigeMultiplier: 1,
     referrer: null,
@@ -108,10 +110,11 @@ async function initUser() {
     },
 
     // Preparado para edificios
-    buildings: { miner1: { level: 0, baseCost: 50, baseProduction: 1 },
-            miner2: { level: 0, baseCost: 200, baseProduction: 5 },
-            miner3: { level: 0, baseCost: 1000, baseProduction: 25 }
-                },
+  buildings: { 
+    miner1: { level: 0, baseCost: 50, baseProduction: 1, requiredLevel: 1 },
+    miner2: { level: 0, baseCost: 200, baseProduction: 5, requiredLevel: 3 },
+    miner3: { level: 0, baseCost: 1000, baseProduction: 25, requiredLevel: 5 }
+}  
 
     // Compatibilidad temporal (NO borrar aún)
     puntos: 1000,
@@ -133,7 +136,9 @@ async function initUser() {
 
     // MIGRACIÓN AUTOMÁTICA
     await userRef.set({
-
+        
+    xp: userData.xp ?? 0,
+    xpRequired: userData.xpRequired ?? 100,
     balance: userData.balance ?? userData.puntos ?? 0,
     energy: userData.energy ?? userData.energia ?? 100,
     maxEnergy: userData.maxEnergy ?? userData.max_energia ?? 100,
@@ -588,6 +593,14 @@ async function buyBuilding(key) {
 
     if (!userData || !userData.buildings[key]) return;
 
+    const required = userData.buildings[key].requiredLevel ?? 1;
+    const currentStage = userData.stage ?? 1;
+
+if (currentStage < required) {
+    showNotification("🔒 Requiere nivel " + required, "error");
+    return;
+}
+
     const building = userData.buildings[key];
     const cost = building.baseCost * (building.level + 1);
 
@@ -604,6 +617,8 @@ async function buyBuilding(key) {
     });
 
     showNotification("Edificio mejorado 🚀", "success");
+    addXP(10);
+    
 }
 
 
@@ -682,10 +697,38 @@ function showLevelUpScreen(newLevel) {
 
 }
 
+function addXP(amount) {
+
+    if (!userData || !userId) return;
+
+    const userRef = db.collection("users").doc(userId);
+
+    const newXP = (userData.xp ?? 0) + amount;
+    const required = userData.xpRequired ?? 100;
+
+    if (newXP >= required) {
+
+        userRef.update({
+            xp: 0,
+            stage: firebase.firestore.FieldValue.increment(1)
+        });
+
+        showLevelUpScreen((userData.stage ?? 1) + 1);
+
+    } else {
+
+        userRef.update({
+            xp: firebase.firestore.FieldValue.increment(amount)
+        });
+
+    }
+}
+
 // Exponer funciones
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
