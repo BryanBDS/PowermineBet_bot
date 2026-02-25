@@ -397,3 +397,33 @@
         opacity: 1;
     }
 }
+
+.explosion-bg {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, gold 0%, orange 40%, transparent 70%);
+    border-radius: 50%;
+    animation: explodeGlow 0.8s ease-out forwards;
+    z-index: 1;
+}
+
+.level-up-content {
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes explodeGlow {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    70% {
+        transform: scale(1.5);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+   }
