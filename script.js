@@ -380,6 +380,8 @@ if (sound) {
         levelEl.classList.remove("level-up-effect");
     }, 1000);
 }
+        createLevelParticles();
+        
     }
 }
 // ============================================
@@ -602,10 +604,40 @@ async function buyBuilding(key) {
     showNotification("Edificio mejorado 🚀", "success");
 }
 
+
+
+function createLevelParticles() {
+    const levelEl = document.getElementById("user-level");
+    if (!levelEl) return;
+
+    const rect = levelEl.getBoundingClientRect();
+
+    for (let i = 0; i < 25; i++) {
+        const particle = document.createElement("div");
+        particle.classList.add("particle");
+
+        particle.style.left = rect.left + rect.width / 2 + "px";
+        particle.style.top = rect.top + rect.height / 2 + "px";
+
+        const x = (Math.random() - 0.5) * 250 + "px";
+        const y = (Math.random() - 0.5) * 250 + "px";
+
+        particle.style.setProperty("--x", x);
+        particle.style.setProperty("--y", y);
+
+        document.body.appendChild(particle);
+
+        setTimeout(() => {
+            particle.remove();
+        }, 1000);
+    }
+}
+
 // Exponer funciones
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
