@@ -635,6 +635,7 @@ function createLevelParticles() {
     }
 }
 
+
 function showLevelUpScreen(newLevel) {
 
     const screen = document.getElementById("level-up-screen");
@@ -645,28 +646,47 @@ function showLevelUpScreen(newLevel) {
 
     text.textContent = "Nivel " + newLevel;
 
-    // Reiniciar animación
-    explosion.style.animation = "none";
-    explosion.offsetHeight; 
-    explosion.style.animation = "explodeGlow 0.8s ease-out forwards";
-
-    screen.classList.add("active");
-
-    document.body.classList.add("shake");
-
-setTimeout(() => {
-    document.body.classList.remove("shake");
-}, 600);
+    // 🔥 ACTIVAR SLOW MOTION
+    document.body.classList.add("slow-motion");
 
     setTimeout(() => {
-        screen.classList.remove("active");
-    }, 2500);
+
+        // Desactivar slow motion justo antes del impacto
+        document.body.classList.remove("slow-motion");
+
+        // Reiniciar animación explosión
+        explosion.style.animation = "none";
+        explosion.offsetHeight;
+        explosion.style.animation = "explodeGlow 0.8s ease-out forwards";
+
+        screen.classList.add("active");
+
+        // 💥 SHAKE
+        document.body.classList.add("shake");
+
+        setTimeout(() => {
+            document.body.classList.remove("shake");
+        }, 600);
+
+        // Vibración real Android
+        if (navigator.vibrate) {
+            navigator.vibrate(300);
+        }
+
+        // Cerrar pantalla
+        setTimeout(() => {
+            screen.classList.remove("active");
+        }, 2500);
+
+    }, 400); // ← Tiempo del slow motion
+
 }
 
 // Exponer funciones
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
