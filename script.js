@@ -183,7 +183,7 @@ function updateUI() {
 
     const levelEl = document.getElementById("user-level");
     if (levelEl) {
-    levelEl.textContent = `Nivel ${userData.nivel ?? 1}`;
+    levelEl.textContent = `Nivel ${userData.stage ?? 1}`;
     }
 
     const miningRateEl = document.getElementById("mining-rate");
@@ -312,6 +312,31 @@ function calculateProduction() {
     }
 
     return total * (userData.prestigeMultiplier ?? 1);
+}
+
+// ============================================
+// SISTEMA DE NIVELES
+// ============================================
+
+async function checkLevelUp() {
+
+    if (!userData || !userId) return;
+
+    const currentLevel = userData.stage ?? 1;
+    const totalEarned = userData.totalEarned ?? 0;
+
+    const required = Math.pow(currentLevel, 2) * 5000;
+
+    if (totalEarned >= required) {
+
+        const userRef = db.collection("users").doc(userId);
+
+        await userRef.update({
+            stage: currentLevel + 1
+        });
+
+        showNotification("🎉 ¡Subiste de nivel!", "success");
+    }
 }
 // ============================================
 // MINERÍA
@@ -470,8 +495,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const userRef = db.collection("users").doc(userId);
 
             await userRef.update({
-                balance: firebase.firestore.FieldValue.increment(production)
-            });
+         balance: firebase.firestore.FieldValue.increment(production),
+        totalEarned: firebase.firestore.FieldValue.increment(production)
+});
+
+await checkLevelUp();
 
         }, Game.productionInterval);
 
@@ -534,6 +562,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
