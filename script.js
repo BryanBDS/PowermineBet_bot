@@ -311,7 +311,14 @@ function calculateProduction() {
         total += b.level * b.baseProduction;
     }
 
-    return total * (userData.prestigeMultiplier ?? 1);
+    const level = userData.stage ?? 1;
+const levelBonus = 1 + ((level - 1) * 0.02);
+
+const prestigeMultiplier = userData.prestigeMultiplier ?? 1;
+
+const finalProduction = total * levelBonus * prestigeMultiplier;
+
+return Math.max(0, finalProduction);
 }
 
 // ============================================
@@ -562,6 +569,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
