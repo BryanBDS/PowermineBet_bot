@@ -184,9 +184,26 @@ function updateUI() {
     const levelEl = document.getElementById("user-level");
     if (levelEl) {
     const level = userData.stage ?? 1;
-const levelBonusPercent = (level - 1) * 2;
+    const totalEarned = userData.totalEarned ?? 0;
 
-levelEl.textContent = `Nivel ${level} (+${levelBonusPercent}%)`;
+    const required = Math.pow(level, 2) * 5000;
+    const previousRequired = Math.pow(level - 1, 2) * 5000;
+
+    const progress = totalEarned - previousRequired;
+    const needed = required - previousRequired;
+
+    const percentage = Math.min(100, (progress / needed) * 100);
+
+    const bar = document.getElementById("level-progress-bar");
+    if (bar) {
+    bar.style.width = percentage + "%";
+}
+
+const progressText = document.getElementById("level-progress-text");
+if (progressText) {
+    progressText.textContent =
+        `${Math.floor(progress)} / ${needed} (${Math.floor(percentage)}%)`;
+}
     }
 
     const miningRateEl = document.getElementById("mining-rate");
@@ -572,6 +589,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
