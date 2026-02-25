@@ -652,6 +652,12 @@ function showLevelUpScreen(newLevel) {
 
     screen.classList.add("active");
 
+    document.body.classList.add("shake");
+
+setTimeout(() => {
+    document.body.classList.remove("shake");
+}, 600);
+
     setTimeout(() => {
         screen.classList.remove("active");
     }, 2500);
@@ -661,6 +667,7 @@ function showLevelUpScreen(newLevel) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
