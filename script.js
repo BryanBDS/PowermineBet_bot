@@ -362,6 +362,8 @@ async function checkLevelUp() {
             stage: currentLevel + 1
         });
 
+        showLevelUpScreen(currentLevel + 1);
+
         showNotification("🎉 ¡Subiste de nivel!", "success");
 
         const sound = document.getElementById("level-up-sound");
@@ -633,10 +635,27 @@ function createLevelParticles() {
     }
 }
 
+function showLevelUpScreen(newLevel) {
+
+    const screen = document.getElementById("level-up-screen");
+    const text = document.getElementById("new-level-text");
+
+    if (!screen || !text) return;
+
+    text.textContent = "Nivel " + newLevel;
+
+    screen.classList.add("active");
+
+    setTimeout(() => {
+        screen.classList.remove("active");
+    }, 2500);
+}
+
 // Exponer funciones
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
