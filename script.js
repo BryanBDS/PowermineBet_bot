@@ -475,6 +475,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }, Game.productionInterval);
 
+        // REGENERACIÓN AUTOMÁTICA DE ENERGÍA
+setInterval(async () => {
+
+    if (!userData || !userId) return;
+
+    const maxEnergy = userData.maxEnergy ?? 100;
+    const currentEnergy = userData.energy ?? 0;
+
+    if (currentEnergy >= maxEnergy) return;
+
+    const userRef = db.collection("users").doc(userId);
+
+    await userRef.update({
+        energy: firebase.firestore.FieldValue.increment(1)
+    });
+
+}, Game.regenInterval);
+
     })
     .catch((error) => {
         console.error("Error auth:", error);
@@ -513,6 +531,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
