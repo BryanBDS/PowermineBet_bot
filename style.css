@@ -445,3 +445,8 @@
 .shake {
     animation: screenShake 0.6s ease;
 }
+
+.slow-motion * {
+    transition: all 0.4s ease !important;
+    animation-duration: 2s !important;
+}
