@@ -311,3 +311,17 @@
     font-size: 12px;
     margin-top: 4px;
 }
+
+   @keyframes levelUpAnimation {
+    0%   { transform: scale(1); }
+    25%  { transform: scale(1.3); }
+    50%  { transform: scale(1.1); }
+    75%  { transform: scale(1.25); }
+    100% { transform: scale(1); }
+}
+
+.level-up-effect {
+    animation: levelUpAnimation 0.8s ease;
+    color: #00ff99;
+    text-shadow: 0 0 15px #00ff99;
+}
