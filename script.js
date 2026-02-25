@@ -374,6 +374,7 @@ async function checkLevelUp() {
 
         showLevelUpScreen(currentLevel + 1);
         showNotification("🎉 ¡Subiste de nivel!", "success");
+        await addXP(10);
 
         const sound = document.getElementById("level-up-sound");
         if (sound) {
@@ -698,37 +699,26 @@ function showLevelUpScreen(newLevel) {
 
 }
 
-function addXP(amount) {
+async function addXP(amount) {
 
     if (!userData || !userId) return;
 
     const userRef = db.collection("users").doc(userId);
 
-    const newXP = (userData.xp ?? 0) + amount;
-    const required = userData.xpRequired ?? 100;
+    // 1️⃣ Actualizar XP en Firebase
+    await userRef.update({
+        xp: firebase.firestore.FieldValue.increment(amount)
+    });
 
-    if (newXP >= required) {
-
-        userRef.update({
-            xp: 0,
-            stage: firebase.firestore.FieldValue.increment(1)
-        });
-
-        showLevelUpScreen((userData.stage ?? 1) + 1);
-
-    } else {
-
-        userRef.update({
-            xp: firebase.firestore.FieldValue.increment(amount)
-        });
-
-    }
+    // 2️⃣ Verificar si cumple condiciones híbridas
+    await checkLevelUp();
 }
 
 // Exponer funciones
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
