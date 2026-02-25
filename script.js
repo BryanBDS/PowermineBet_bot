@@ -475,7 +475,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }, Game.productionInterval);
 
-        // REGENERACIÓN AUTOMÁTICA DE ENERGÍA
+        // REGENERACIÓN AUTOMÁTICA DE ENERGÍA BALANCEADA
 setInterval(async () => {
 
     if (!userData || !userId) return;
@@ -485,13 +485,16 @@ setInterval(async () => {
 
     if (currentEnergy >= maxEnergy) return;
 
+    // Si está minando, regenera más lento
+    const regenAmount = isMining ? 0.3 : 1;
+
     const userRef = db.collection("users").doc(userId);
 
     await userRef.update({
-        energy: firebase.firestore.FieldValue.increment(1)
+        energy: firebase.firestore.FieldValue.increment(regenAmount)
     });
 
-}, Game.regenInterval);
+}, Game.productionInterval);
 
     })
     .catch((error) => {
@@ -531,6 +534,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
