@@ -431,60 +431,43 @@ async function withdraw() {
 // ============================================
 // INICIO APP
 // ============================================
-firebase.auth().signInAnonymously()
-.then(() => {
-    console.log("Autenticado en Firebase");
-})
-.catch((error) => {
-    console.error("Error auth:", error);
-});
-    
 document.addEventListener("DOMContentLoaded", () => {
 
-    initUser();
+    firebase.auth().signInAnonymously()
+    .then(() => {
 
-    const mineBtn = document.getElementById("mine-btn");
-    if (mineBtn) {
-        mineBtn.addEventListener("click", startMining);
-    }
+        console.log("Autenticado en Firebase");
 
-    setInterval(async () => {
+        initUser();
 
-        if (!userData || !userId) return;
+        const mineBtn = document.getElementById("mine-btn");
+        if (mineBtn) {
+            mineBtn.addEventListener("click", startMining);
+        }
 
-        const production = calculateProduction();
-        if (production <= 0) return;
+        // PRODUCCIÓN AUTOMÁTICA (solo una vez)
+        setInterval(async () => {
 
-        const userRef = db.collection("users").doc(userId);
+            if (!userData || !userId) return;
 
-        await userRef.update({
-            balance: firebase.firestore.FieldValue.increment(production)
-        });
+            const production = calculateProduction();
+            if (production <= 0) return;
 
-    }, 5000);
+            const userRef = db.collection("users").doc(userId);
 
-});
+            await userRef.update({
+                balance: firebase.firestore.FieldValue.increment(production)
+            });
 
-    // ============================================
-// PRODUCCIÓN AUTOMÁTICA (IDLE)
-// ============================================
+        }, 5000);
 
-setInterval(async () => {
-
-    if (!userData || !userId) return;
-
-    const production = calculateProduction();
-
-    if (production <= 0) return;
-
-    const userRef = db.collection("users").doc(userId);
-
-    await userRef.update({
-        balance: firebase.firestore.FieldValue.increment(production)
+    })
+    .catch((error) => {
+        console.error("Error auth:", error);
+        showNotification("Error autenticando", "error");
     });
 
-}, 5000);
-
+});
 
 // ============================================
 // COMPRAR EDIFICIO
@@ -516,6 +499,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
