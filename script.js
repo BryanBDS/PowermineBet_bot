@@ -363,6 +363,16 @@ async function checkLevelUp() {
         });
 
         showNotification("🎉 ¡Subiste de nivel!", "success");
+        
+        const levelEl = document.getElementById("user-level");
+
+     if (levelEl) {
+     levelEl.classList.add("level-up-effect");
+
+     setTimeout(() => {
+        levelEl.classList.remove("level-up-effect");
+    }, 1000);
+}
     }
 }
 // ============================================
@@ -589,6 +599,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
