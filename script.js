@@ -363,6 +363,13 @@ async function checkLevelUp() {
         });
 
         showNotification("🎉 ¡Subiste de nivel!", "success");
+
+        const sound = document.getElementById("level-up-sound");
+
+if (sound) {
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+}
         
         const levelEl = document.getElementById("user-level");
 
@@ -599,6 +606,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
