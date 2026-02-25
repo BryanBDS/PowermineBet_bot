@@ -114,7 +114,7 @@ async function initUser() {
     miner1: { level: 0, baseCost: 50, baseProduction: 1, requiredLevel: 1 },
     miner2: { level: 0, baseCost: 200, baseProduction: 5, requiredLevel: 3 },
     miner3: { level: 0, baseCost: 1000, baseProduction: 25, requiredLevel: 5 }
-}  
+},  
 
     // Compatibilidad temporal (NO borrar aún)
     puntos: 1000,
@@ -718,6 +718,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
