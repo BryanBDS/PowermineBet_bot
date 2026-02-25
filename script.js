@@ -15,6 +15,18 @@ let isMining = false;
 let telegram = null;
 
 // ============================================
+// CONFIGURACIÓN DEL JUEGO
+// ============================================
+
+const Game = {
+    version: "1.0.0",
+    regenRate: 1,            // Energía que regenera
+    regenInterval: 5000,     // Cada 5 segundos
+    productionInterval: 5000,
+    miningInterval: 5000,
+    referralBonus: 0.05      // 5% futuro sistema referido
+};
+// ============================================
 // TELEGRAM INIT
 // ============================================
 
@@ -459,7 +471,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 balance: firebase.firestore.FieldValue.increment(production)
             });
 
-        }, 5000);
+        }, Game.productionInterval);
 
     })
     .catch((error) => {
@@ -499,6 +511,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
