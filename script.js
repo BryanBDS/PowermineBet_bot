@@ -46,7 +46,7 @@ function formatNumber(num) {
 // INICIALIZAR USUARIO
 // ============================================
 
-async function initUser(authUser) {
+async function initUser() {
 
     try {
 
@@ -431,7 +431,14 @@ async function withdraw() {
 // ============================================
 // INICIO APP
 // ============================================
-
+firebase.auth().signInAnonymously()
+.then(() => {
+    console.log("Autenticado en Firebase");
+})
+.catch((error) => {
+    console.error("Error auth:", error);
+});
+    
 document.addEventListener("DOMContentLoaded", () => {
 
     initUser();
@@ -509,6 +516,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
