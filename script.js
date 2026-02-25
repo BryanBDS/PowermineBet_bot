@@ -183,7 +183,10 @@ function updateUI() {
 
     const levelEl = document.getElementById("user-level");
     if (levelEl) {
-    levelEl.textContent = `Nivel ${userData.stage ?? 1}`;
+    const level = userData.stage ?? 1;
+const levelBonusPercent = (level - 1) * 2;
+
+levelEl.textContent = `Nivel ${level} (+${levelBonusPercent}%)`;
     }
 
     const miningRateEl = document.getElementById("mining-rate");
@@ -569,6 +572,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
