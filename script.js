@@ -339,7 +339,7 @@ async function startMining() {
     balance: firebase.firestore.FieldValue.increment(ganancia),
     energy: firebase.firestore.FieldValue.increment(-1),
     lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
-
+    });
     }, 5000);
 }
 
@@ -516,6 +516,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
