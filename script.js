@@ -93,6 +93,8 @@ async function initUser() {
     stage: 1,
     prestigePoints: 0,
     prestigeMultiplier: 1,
+    referrer: null,
+    referrals: 0,           
     totalEarned: 1000,
     lastUpdate: Date.now(),
 
@@ -511,6 +513,7 @@ async function buyBuilding(key) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
