@@ -639,10 +639,16 @@ function showLevelUpScreen(newLevel) {
 
     const screen = document.getElementById("level-up-screen");
     const text = document.getElementById("new-level-text");
+    const explosion = document.querySelector(".explosion-bg");
 
-    if (!screen || !text) return;
+    if (!screen || !text || !explosion) return;
 
     text.textContent = "Nivel " + newLevel;
+
+    // Reiniciar animación
+    explosion.style.animation = "none";
+    explosion.offsetHeight; 
+    explosion.style.animation = "explodeGlow 0.8s ease-out forwards";
 
     screen.classList.add("active");
 
@@ -655,6 +661,7 @@ function showLevelUpScreen(newLevel) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
