@@ -356,39 +356,40 @@ async function checkLevelUp() {
 
     const currentLevel = userData.stage ?? 1;
     const totalEarned = userData.totalEarned ?? 0;
+    const xp = userData.xp ?? 0;
+    const xpRequired = userData.xpRequired ?? 100;
 
-    const required = Math.pow(currentLevel, 2) * 5000;
+    const moneyRequired = Math.pow(currentLevel, 2) * 5000;
 
-    if (totalEarned >= required) {
+    // 🔥 SISTEMA HÍBRIDO PROFESIONAL
+    if (totalEarned >= moneyRequired && xp >= xpRequired) {
 
         const userRef = db.collection("users").doc(userId);
 
         await userRef.update({
-            stage: currentLevel + 1
+            stage: currentLevel + 1,
+            xp: 0,
+            xpRequired: xpRequired + 50
         });
 
         showLevelUpScreen(currentLevel + 1);
-
         showNotification("🎉 ¡Subiste de nivel!", "success");
 
         const sound = document.getElementById("level-up-sound");
+        if (sound) {
+            sound.currentTime = 0;
+            sound.play().catch(() => {});
+        }
 
-if (sound) {
-    sound.currentTime = 0;
-    sound.play().catch(() => {});
-}
-        
         const levelEl = document.getElementById("user-level");
+        if (levelEl) {
+            levelEl.classList.add("level-up-effect");
+            setTimeout(() => {
+                levelEl.classList.remove("level-up-effect");
+            }, 1000);
+        }
 
-     if (levelEl) {
-     levelEl.classList.add("level-up-effect");
-
-     setTimeout(() => {
-        levelEl.classList.remove("level-up-effect");
-    }, 1000);
-}
         createLevelParticles();
-        
     }
 }
 // ============================================
@@ -728,6 +729,7 @@ function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
