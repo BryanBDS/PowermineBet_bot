@@ -647,7 +647,7 @@ if (currentStage < required) {
     });
 
     showNotification("Edificio mejorado 🚀", "success");
-    addXP(10);
+    await addXP(10);
     
 }
 
@@ -746,6 +746,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
