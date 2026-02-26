@@ -461,6 +461,8 @@ async function startMining() {
     energy: firebase.firestore.FieldValue.increment(-1),
     lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
 });
+    await addXP(10);
+        
     }, 5000);
 }
 
@@ -745,6 +747,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
