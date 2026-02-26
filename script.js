@@ -198,10 +198,10 @@ function updateUI() {
 const required = calculateMoneyRequired(level);
 const previousRequired = calculateMoneyRequired(level - 1);
 
-    const progress = totalEarned - previousRequired;
+    const progress = Math.max(0, totalEarned - previousRequired);
     const needed = required - previousRequired;
 
-    const percentage = Math.min(100, (progress / needed) * 100);
+    const percentage = Math.max(0, Math.min(100, (progress / needed) * 100));
 
     const bar = document.getElementById("level-progress-bar");
     if (bar) {
@@ -468,7 +468,7 @@ async function startMining() {
     energy: firebase.firestore.FieldValue.increment(-1),
     lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
 });
-    await addXP(10);
+    await addXP(Math.floor(ganancia));
         
     }, 5000);
 }
@@ -771,6 +771,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
