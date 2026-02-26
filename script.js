@@ -196,7 +196,7 @@ function updateUI() {
 }
 
 const required = calculateMoneyRequired(level);
-const previousRequired = calculateMoneyRequired(level - 1);
+const previousRequired = level === 1 ? 0 : calculateMoneyRequired(level - 1);
 
     const progress = Math.max(0, totalEarned - previousRequired);
     const needed = required - previousRequired;
@@ -229,10 +229,10 @@ if (progressText) {
     const maxEnergy = userData.maxEnergy ?? 100;
     const currentEnergy = userData.energy ?? 0;
 
-    const percent = (currentEnergy / maxEnergy) * 100;
+    const percent = (Math.floor(currentEnergy) / maxEnergy) * 100;
 
     energyBar.style.width = percent + "%";
-    energyText.textContent = `${currentEnergy} / ${maxEnergy}`;
+    energyText.textContent = `${Math.floor(currentEnergy)} / ${maxEnergy}`;
     }
 
     const mineBtn = document.getElementById("mine-btn");
@@ -771,6 +771,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
