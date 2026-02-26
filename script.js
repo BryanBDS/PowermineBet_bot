@@ -322,7 +322,6 @@ if (totalBuildingsEl && userData.buildings) {
     }
 }
 
-}
 
 
         
@@ -751,6 +750,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
