@@ -251,6 +251,7 @@ if (progressText) {
     } else {
         minerCard.classList.remove("mining");
     }
+} 
 
 
         
@@ -747,6 +748,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
