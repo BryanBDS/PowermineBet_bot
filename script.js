@@ -191,8 +191,12 @@ function updateUI() {
     const level = userData.stage ?? 1;
     const totalEarned = userData.totalEarned ?? 0;
 
-    const required = Math.pow(level, 2) * 5000;
-    const previousRequired = Math.pow(level - 1, 2) * 5000;
+    function calculateMoneyRequired(level) {
+    return 5000 + (level * 3500) + (Math.pow(level, 2) * 1200);
+}
+
+const required = calculateMoneyRequired(level);
+const previousRequired = calculateMoneyRequired(level - 1);
 
     const progress = totalEarned - previousRequired;
     const needed = required - previousRequired;
@@ -383,8 +387,11 @@ async function checkLevelUp() {
     const xp = userData.xp ?? 0;
     const xpRequired = userData.xpRequired ?? 100;
 
-    const moneyRequired = Math.pow(currentLevel, 2) * 5000;
-
+    const moneyRequired =
+    5000 +
+    (currentLevel * 3500) +
+    (Math.pow(currentLevel, 2) * 1200);
+    
     // 🔥 SISTEMA HÍBRIDO PROFESIONAL
     if (totalEarned >= moneyRequired && xp >= xpRequired) {
 
@@ -764,6 +771,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
