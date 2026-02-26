@@ -323,17 +323,12 @@ if (totalBuildingsEl && userData.buildings) {
 }
 
 
-
-        
-    function updateXPBar() {
+function updateXPBar() {
 
     if (!userData) return;
 
     const xp = userData.xp ?? 0;
-    const level = userData.stage ?? 1;
-
-    // Fórmula de XP requerida
-    const xpRequired = level * 100;
+    const xpRequired = userData.xpRequired ?? 100;
 
     const percent = Math.min((xp / xpRequired) * 100, 100);
 
@@ -347,8 +342,7 @@ if (totalBuildingsEl && userData.buildings) {
     if (xpText) {
         xpText.textContent = `${xp} / ${xpRequired} XP`;
     }
-}  
-        
+}
 
 
 // ============================================
@@ -461,11 +455,12 @@ async function startMining() {
 
         const ganancia = calculateProduction();
 
-        await userRef.update({
+    await userRef.update({
     balance: firebase.firestore.FieldValue.increment(ganancia),
+    totalEarned: firebase.firestore.FieldValue.increment(ganancia), // 🔥 AGREGA ESTO
     energy: firebase.firestore.FieldValue.increment(-1),
     lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
-    });
+});
     }, 5000);
 }
 
@@ -750,6 +745,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
