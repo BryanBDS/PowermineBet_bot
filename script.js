@@ -175,6 +175,31 @@ async function initUser() {
     }
 }
 
+
+// ============================================
+// 🔔 SISTEMA DE NOTIFICACIONES
+// ============================================
+
+function showNotification(message) {
+
+    const notification = document.createElement("div");
+    notification.classList.add("game-notification");
+    notification.textContent = message;
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.classList.add("show");
+    }, 100);
+
+    setTimeout(() => {
+        notification.classList.remove("show");
+        setTimeout(() => {
+            notification.remove();
+        }, 500);
+    }, 3000);
+}
+
 // ============================================
 // ACTUALIZAR UI
 // ============================================
@@ -185,6 +210,21 @@ function updateUI() {
 
     document.getElementById("user-points").textContent =
         formatNumber(userData.balance ?? userData.puntos);
+
+    // 🎉 =====================================
+// DETECTAR SUBIDA DE NIVEL
+// =====================================
+
+if (!window.previousStage) {
+    window.previousStage = userData.stage;
+}
+
+if (userData.stage > window.previousStage) {
+
+    showNotification(`🎉 ¡Subiste al Nivel ${userData.stage}!`);
+
+    window.previousStage = userData.stage;
+}
 
     const levelEl = document.getElementById("user-level");
     if (levelEl) {
@@ -322,6 +362,19 @@ if (totalBuildingsEl && userData.buildings) {
 
     continue; // IMPORTANTE: salta al siguiente edificio
      } else {
+
+         // 🔓 NOTIFICAR DESBLOQUEO
+if (!window.unlockedBuildings) {
+    window.unlockedBuildings = {};
+}
+
+if (!window.unlockedBuildings[key] && userLevel >= requiredLevel) {
+
+    showNotification(`🔓 ¡Has desbloqueado ${key.toUpperCase()}!`);
+
+    window.unlockedBuildings[key] = true;
+}
+                
     if (buildingCard) {
         buildingCard.classList.remove("locked");
     }
@@ -803,6 +856,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
