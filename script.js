@@ -242,7 +242,6 @@ if (progressText) {
             mineBtn.classList.remove("mining");
         }
     }
-    
     const minerCard = document.querySelector(".miner-card");
 
     if (minerCard) {
@@ -251,7 +250,6 @@ if (progressText) {
     } else {
         minerCard.classList.remove("mining");
     }
-} 
 
 
         
@@ -748,6 +746,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
