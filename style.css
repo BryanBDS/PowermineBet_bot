@@ -501,17 +501,19 @@
 .game-notification {
     position: fixed;
     top: 20px;
-    right: -400px;
-    background: linear-gradient(135deg, #1e1e2f, #2c2c44);
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: #1e1e2f;
     color: #fff;
-    padding: 15px 25px;
+    padding: 14px 22px;
     border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.4);
     font-weight: bold;
     z-index: 9999;
-    transition: right 0.5s ease;
+    opacity: 0;
+    transition: all 0.4s ease;
 }
 
 .game-notification.show {
-    right: 20px;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
