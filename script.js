@@ -732,14 +732,22 @@ async function addXP(amount) {
 
     if (!userData || !userId) return;
 
+    const xp = userData.xp ?? 0;
+    const xpRequired = userData.xpRequired ?? 100;
+
+    // 🚫 Si ya está lleno, no sumar más XP
+    if (xp >= xpRequired) {
+        return;
+    }
+
     const userRef = db.collection("users").doc(userId);
 
-    // 1️⃣ Actualizar XP en Firebase
+    const newXP = xp + amount;
+
     await userRef.update({
-        xp: firebase.firestore.FieldValue.increment(amount)
+        xp: newXP >= xpRequired ? xpRequired : newXP
     });
 
-    // 2️⃣ Verificar si cumple condiciones híbridas
     await checkLevelUp();
 }
 
@@ -747,6 +755,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
