@@ -728,24 +728,33 @@ function showLevelUpScreen(newLevel) {
 
 }
 
+
+
 async function addXP(amount) {
 
-    if (!userData || !userId) return;
-
-    const xp = userData.xp ?? 0;
-    const xpRequired = userData.xpRequired ?? 100;
-
-    // 🚫 Si ya está lleno, no sumar más XP
-    if (xp >= xpRequired) {
-        return;
-    }
+    if (!userId) return;
 
     const userRef = db.collection("users").doc(userId);
 
-    const newXP = xp + amount;
+    await db.runTransaction(async (transaction) => {
 
-    await userRef.update({
-        xp: newXP >= xpRequired ? xpRequired : newXP
+        const doc = await transaction.get(userRef);
+        if (!doc.exists) return;
+
+        const data = doc.data();
+
+        const xp = data.xp ?? 0;
+        const xpRequired = data.xpRequired ?? 100;
+
+        // 🚫 Si ya está lleno, no hacer nada
+        if (xp >= xpRequired) return;
+
+        const newXP = Math.min(xp + amount, xpRequired);
+
+        transaction.update(userRef, {
+            xp: newXP
+        });
+
     });
 
     await checkLevelUp();
@@ -755,6 +764,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
