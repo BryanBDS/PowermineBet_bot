@@ -223,6 +223,19 @@ if (userData.stage > window.previousStage) {
 
     showNotification(`🎉 ¡Subiste al Nivel ${userData.stage}!`);
 
+    // 🔓 Revisar qué edificios se desbloquean en este nuevo nivel
+    if (userData?.buildings) {
+        for (let key in userData.buildings) {
+
+            const building = userData.buildings[key];
+            const required = Number(building.requiredLevel) || 1;
+
+            if (required === userData.stage) {
+                showNotification(`🔓 ¡Has desbloqueado ${key.toUpperCase()}!`);
+            }
+        }
+    }
+
     window.previousStage = userData.stage;
 }
 
@@ -363,17 +376,6 @@ if (totalBuildingsEl && userData.buildings) {
     continue; // IMPORTANTE: salta al siguiente edificio
      } else {
 
-         // 🔓 NOTIFICAR DESBLOQUEO
-if (!window.unlockedBuildings) {
-    window.unlockedBuildings = {};
-}
-
-if (!window.unlockedBuildings[key] && userLevel >= requiredLevel) {
-
-    showNotification(`🔓 ¡Has desbloqueado ${key.toUpperCase()}!`);
-
-    window.unlockedBuildings[key] = true;
-}
                 
     if (buildingCard) {
         buildingCard.classList.remove("locked");
@@ -856,6 +858,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
