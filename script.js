@@ -203,12 +203,13 @@ function updateUI() {
     if (bar) {
     bar.style.width = percentage + "%";
 }
-
+       
 const progressText = document.getElementById("level-progress-text");
 if (progressText) {
     progressText.textContent =
         `${Math.floor(progress)} / ${needed} (${Math.floor(percentage)}%)`;
 }
+     updateXPBar();   
     }
 
     const miningRateEl = document.getElementById("mining-rate");
@@ -251,6 +252,32 @@ if (progressText) {
         minerCard.classList.remove("mining");
     }
 
+
+        
+    function updateXPBar() {
+
+    if (!userData) return;
+
+    const xp = userData.xp ?? 0;
+    const level = userData.stage ?? 1;
+
+    // Fórmula de XP requerida
+    const xpRequired = level * 100;
+
+    const percent = Math.min((xp / xpRequired) * 100, 100);
+
+    const xpBar = document.getElementById("xp-bar");
+    const xpText = document.getElementById("xp-text");
+
+    if (xpBar) {
+        xpBar.style.width = percent + "%";
+    }
+
+    if (xpText) {
+        xpText.textContent = `${xp} / ${xpRequired} XP`;
+    }
+}  
+        
         // ============================
 // ESTADÍSTICAS AVANZADAS
 // ============================
@@ -373,6 +400,7 @@ async function checkLevelUp() {
         });
 
         showLevelUpScreen(currentLevel + 1);
+        updateXPBar();
         showNotification("🎉 ¡Subiste de nivel!", "success");
         
         
@@ -719,6 +747,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
