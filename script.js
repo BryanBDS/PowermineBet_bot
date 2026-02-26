@@ -251,6 +251,29 @@ if (progressText) {
         minerCard.classList.remove("mining");
     }
 } 
+
+// ============================
+// ESTADÍSTICAS AVANZADAS
+// ============================
+
+const totalEarnedEl = document.getElementById("total-earned");
+const totalBuildingsEl = document.getElementById("total-buildings");
+
+if (totalEarnedEl) {
+    totalEarnedEl.textContent = formatNumber(userData.totalEarned ?? 0);
+}
+
+if (totalBuildingsEl && userData.buildings) {
+
+    let totalBuildings = 0;
+
+    for (let key in userData.buildings) {
+        totalBuildings += userData.buildings[key].level;
+    }
+
+    totalBuildingsEl.textContent = totalBuildings;
+}
+}
 } 
 
 
@@ -279,28 +302,7 @@ if (progressText) {
     }
 }  
         
-        // ============================
-// ESTADÍSTICAS AVANZADAS
-// ============================
 
-const totalEarnedEl = document.getElementById("total-earned");
-const totalBuildingsEl = document.getElementById("total-buildings");
-
-if (totalEarnedEl) {
-    totalEarnedEl.textContent = formatNumber(userData.totalEarned ?? 0);
-}
-
-if (totalBuildingsEl && userData.buildings) {
-
-    let totalBuildings = 0;
-
-    for (let key in userData.buildings) {
-        totalBuildings += userData.buildings[key].level;
-    }
-
-    totalBuildingsEl.textContent = totalBuildings;
-}
-}
     // ============================================
     // BUILDINGS
     // ============================================
@@ -748,6 +750,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
