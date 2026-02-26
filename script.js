@@ -287,6 +287,12 @@ if (totalBuildingsEl && userData.buildings) {
         for (let key in userData.buildings) {
 
             const b = userData.buildings[key];
+            
+            // 🔓 SISTEMA DE DESBLOQUEO
+            const userLevel = userData.stage ?? 1;
+            const requiredLevel = b.requiredLevel ?? 1;
+
+            const buildingCard = document.getElementById(`${key}-card`);
 
             const levelElement = document.getElementById(`${key}-level`);
             const costElement = document.getElementById(`${key}-cost`);
@@ -299,6 +305,32 @@ if (totalBuildingsEl && userData.buildings) {
             if (levelElement) levelElement.textContent = b.level;
             if (costElement) costElement.textContent = formatNumber(cost);
             if (productionElement) productionElement.textContent = formatNumber(productionPerSecond);
+
+            // 🔒 Verificar si está bloqueado por nivel
+            if (userLevel < requiredLevel) {
+
+            if (buildingCard) {
+               buildingCard.classList.add("locked");
+             }
+
+         if (button) {
+        button.disabled = true;
+        button.textContent = `🔒 Nivel ${requiredLevel}`;
+        button.classList.remove("btn-active");
+        button.classList.add("btn-disabled");
+    }
+
+    continue; // IMPORTANTE: salta al siguiente edificio
+     } else {
+    if (buildingCard) {
+        buildingCard.classList.remove("locked");
+    }
+
+    if (button) {
+        button.textContent = "Comprar";
+    }
+}
+            
 
             if (button) {
                 if (userData.balance >= cost) {
@@ -771,6 +803,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
