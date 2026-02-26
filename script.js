@@ -273,36 +273,8 @@ if (totalBuildingsEl && userData.buildings) {
 
     totalBuildingsEl.textContent = totalBuildings;
 }
-}
 
-
-        
-    function updateXPBar() {
-
-    if (!userData) return;
-
-    const xp = userData.xp ?? 0;
-    const level = userData.stage ?? 1;
-
-    // Fórmula de XP requerida
-    const xpRequired = level * 100;
-
-    const percent = Math.min((xp / xpRequired) * 100, 100);
-
-    const xpBar = document.getElementById("xp-bar");
-    const xpText = document.getElementById("xp-text");
-
-    if (xpBar) {
-        xpBar.style.width = percent + "%";
-    }
-
-    if (xpText) {
-        xpText.textContent = `${xp} / ${xpRequired} XP`;
-    }
-}  
-        
-
-    // ============================================
+        // ============================================
     // BUILDINGS
     // ============================================
 
@@ -349,6 +321,36 @@ if (totalBuildingsEl && userData.buildings) {
         totalProductionElement.textContent = formatNumber(total);
     }
 }
+
+}
+
+
+        
+    function updateXPBar() {
+
+    if (!userData) return;
+
+    const xp = userData.xp ?? 0;
+    const level = userData.stage ?? 1;
+
+    // Fórmula de XP requerida
+    const xpRequired = level * 100;
+
+    const percent = Math.min((xp / xpRequired) * 100, 100);
+
+    const xpBar = document.getElementById("xp-bar");
+    const xpText = document.getElementById("xp-text");
+
+    if (xpBar) {
+        xpBar.style.width = percent + "%";
+    }
+
+    if (xpText) {
+        xpText.textContent = `${xp} / ${xpRequired} XP`;
+    }
+}  
+        
+
 
 // ============================================
 // CALCULAR PRODUCCIÓN TOTAL
@@ -749,6 +751,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
