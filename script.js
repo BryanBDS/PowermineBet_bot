@@ -322,7 +322,7 @@ if (totalBuildingsEl && userData.buildings) {
 
     if (totalProductionElement) {
         const total = calculateProduction();
-        totalProductionElement.textContent = formatNumber(total);
+        totalProductionElement.textContent = formatNumber(Math.floor(total));
     }
 }
 
@@ -771,6 +771,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
