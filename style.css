@@ -450,3 +450,28 @@
     transition: all 0.4s ease !important;
     animation-duration: 2s !important;
 }
+
+/* XP BAR */
+
+.xp-container {
+    width: 100%;
+    height: 18px;
+    background: #1e1e1e;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.xp-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    transition: width 0.4s ease;
+}
+
+.xp-text {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 4px;
+    color: #aaa;
+}
