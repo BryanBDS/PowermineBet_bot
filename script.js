@@ -274,7 +274,6 @@ if (totalBuildingsEl && userData.buildings) {
     totalBuildingsEl.textContent = totalBuildings;
 }
 }
-} 
 
 
         
@@ -750,6 +749,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
