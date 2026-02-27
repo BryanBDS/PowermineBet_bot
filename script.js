@@ -26,6 +26,10 @@ const Game = {
     miningInterval: 5000,
     referralBonus: 0.05      // 5% futuro sistema referido
 };
+
+let turboMultiplier = 1;
+let turboActive = false;
+
 // ============================================
 // TELEGRAM INIT
 // ============================================
@@ -547,15 +551,24 @@ async function startMining() {
             return;
         }
 
-        const ganancia = calculateProduction();
+        async function startMining() {
+
+    if (turboActive) return;
+
+    if (userData.energy <= 0) return;
+
+    turboActive = true;
+    turboMultiplier = 2;
 
     await userRef.update({
-    balance: firebase.firestore.FieldValue.increment(ganancia),
-    totalEarned: firebase.firestore.FieldValue.increment(ganancia), // 🔥 AGREGA ESTO
-    energy: firebase.firestore.FieldValue.increment(-1),
-    lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
-});
-    await addXP(Math.floor(ganancia));
+        energy: increment(-1)
+    });
+
+    setTimeout(() => {
+        turboMultiplier = 1;
+        turboActive = false;
+    }, 10000); // 10 segundos
+}
         
     }, 5000);
 }
@@ -662,12 +675,12 @@ document.addEventListener("DOMContentLoaded", () => {
             mineBtn.addEventListener("click", startMining);
         }
 
-        // PRODUCCIÓN AUTOMÁTICA (solo una vez)
+        //  PRODUCCIÓN AUTOMÁTICA (solo una vez)
         setInterval(async () => {
 
             if (!userData || !userId) return;
 
-            const production = calculateProduction();
+            const production = calculateProduction() * turboMultiplier;
             if (production <= 0) return;
 
             const userRef = db.collection("users").doc(userId);
@@ -858,6 +871,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
