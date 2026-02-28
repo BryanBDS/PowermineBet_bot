@@ -250,10 +250,20 @@ if (userData.stage > window.previousStage) {
     const level = userData.stage ?? 1;
     const totalEarned = userData.totalEarned ?? 0;
 
-    function calculateMoneyRequired(level) {
-    return 5000 + (level * 3500) + (Math.pow(level, 2) * 1200);
-}
+    
+    const required = calculateMoneyRequired(level);
+    const previousRequired = level === 1 ? 0 : calculateMoneyRequired(level - 1);
 
+  function calculateMoneyRequired(level) {
+
+    // Escalado balanceado profesional
+    const base = 2000;
+    const linear = level * 1500;
+    const exponential = Math.pow(level, 1.8) * 800;
+
+    return Math.floor(base + linear + exponential);
+}
+        
 const required = calculateMoneyRequired(level);
 const previousRequired = level === 1 ? 0 : calculateMoneyRequired(level - 1);
 
@@ -480,10 +490,7 @@ async function checkLevelUp() {
     const xp = userData.xp ?? 0;
     const xpRequired = userData.xpRequired ?? 100;
 
-    const moneyRequired =
-    5000 +
-    (currentLevel * 3500) +
-    (Math.pow(currentLevel, 2) * 1200);
+    const moneyRequired = calculateMoneyRequired(currentLevel);
     
     // 🔥 SISTEMA HÍBRIDO PROFESIONAL
     if (totalEarned >= moneyRequired && xp >= xpRequired) {
@@ -860,6 +867,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
