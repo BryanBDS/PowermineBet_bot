@@ -48,17 +48,6 @@ if (window.Telegram && window.Telegram.WebApp) {
 // UTILIDADES
 // ============================================
 
-function showNotification(message, type = "info") {
-    const notification = document.createElement("div");
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    setTimeout(() => notification.remove(), 3000);
-}
-
-function formatNumber(num) {
-    return new Intl.NumberFormat().format(Math.floor(num || 0));
-}
 
 // ============================================
 // INICIALIZAR USUARIO
@@ -867,6 +856,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
