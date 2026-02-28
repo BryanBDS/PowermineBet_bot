@@ -343,7 +343,7 @@ if (totalBuildingsEl && userData.buildings) {
             const productionElement = document.getElementById(`${key}-production`);
             const button = document.querySelector(`button[onclick="buyBuilding('${key}')"]`);
 
-            const cost = b.baseCost * (b.level + 1);
+            const cost = calculateBuildingCost(b.baseCost, b.level);
             const productionPerSecond = b.level * b.baseProduction;
 
             if (levelElement) levelElement.textContent = b.level;
@@ -465,6 +465,19 @@ function calculateMoneyRequired(level) {
 
     return Math.floor(base + linear + exponential);
 }
+
+
+// ============================================
+// COSTO DINÁMICO DE EDIFICIOS
+// ============================================
+
+function calculateBuildingCost(baseCost, owned) {
+
+    const growthRate = 1.15; // 15% incremento por compra
+
+    return Math.floor(baseCost * Math.pow(growthRate, owned));
+}
+
 
 // ============================================
 // SISTEMA DE NIVELES
@@ -725,8 +738,8 @@ if (currentStage < required) {
 }
 
     const building = userData.buildings[key];
-    const cost = building.baseCost * (building.level + 1);
-
+    const cost = calculateBuildingCost(building.baseCost, building.level);
+    
     if (userData.balance < cost) {
         showNotification("Balance insuficiente", "error");
         return;
@@ -856,6 +869,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
