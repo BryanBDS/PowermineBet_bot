@@ -29,6 +29,8 @@ const Game = {
 
 let turboMultiplier = 1;
 let turboActive = false;
+let turboTimeLeft = 0;
+let turboInterval = null;
 
 // ============================================
 // TELEGRAM INIT
@@ -523,60 +525,47 @@ async function checkLevelUp() {
 
 async function startMining() {
 
-    if (!userData) {
-        showNotification("Usuario no listo", "error");
-        return;
-    }
-
-    if (isMining) {
-        stopMining();
-        return;
-    }
+    if (!userData || !userId) return;
+    if (turboActive) return;
 
     if (userData.energy <= 0) {
         showNotification("Sin energía", "error");
         return;
     }
 
-    isMining = true;
-    updateUI();
-
     const userRef = db.collection("users").doc(userId);
-
-    miningInterval = setInterval(async () => {
-
-        if (!userData || userData.energy <= 0) {
-            stopMining();
-            showNotification("Energía agotada", "error");
-            return;
-        }
-
-        async function startMining() {
-
-    if (turboActive) return;
-
-    if (userData.energy <= 0) return;
 
     turboActive = true;
     turboMultiplier = 2;
+    turboTimeLeft = 10;
 
     await userRef.update({
-        energy: increment(-1)
+        energy: firebase.firestore.FieldValue.increment(-1)
     });
 
-    setTimeout(() => {
-        turboMultiplier = 1;
-        turboActive = false;
-    }, 10000); // 10 segundos
-}
-        
-    }, 5000);
-}
+    const mineBtn = document.getElementById("mine-btn");
 
-function stopMining() {
-    isMining = false;
-    clearInterval(miningInterval);
-    updateUI();
+    turboInterval = setInterval(() => {
+
+        turboTimeLeft--;
+
+        if (mineBtn) {
+            mineBtn.textContent = `🚀 TURBO ACTIVO (${turboTimeLeft}s)`;
+            mineBtn.classList.add("mining");
+        }
+
+        if (turboTimeLeft <= 0) {
+            clearInterval(turboInterval);
+            turboMultiplier = 1;
+            turboActive = false;
+
+            if (mineBtn) {
+                mineBtn.textContent = "⛏️ Iniciar Minería";
+                mineBtn.classList.remove("mining");
+            }
+        }
+
+    }, 1000);
 }
 
 // ============================================
@@ -871,6 +860,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
