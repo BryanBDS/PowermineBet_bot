@@ -249,23 +249,9 @@ if (userData.stage > window.previousStage) {
     if (levelEl) {
     const level = userData.stage ?? 1;
     const totalEarned = userData.totalEarned ?? 0;
-
-    
+        
     const required = calculateMoneyRequired(level);
     const previousRequired = level === 1 ? 0 : calculateMoneyRequired(level - 1);
-
-  function calculateMoneyRequired(level) {
-
-    // Escalado balanceado profesional
-    const base = 2000;
-    const linear = level * 1500;
-    const exponential = Math.pow(level, 1.8) * 800;
-
-    return Math.floor(base + linear + exponential);
-}
-        
-const required = calculateMoneyRequired(level);
-const previousRequired = level === 1 ? 0 : calculateMoneyRequired(level - 1);
 
     const progress = Math.max(0, totalEarned - previousRequired);
     const needed = required - previousRequired;
@@ -475,6 +461,20 @@ const prestigeMultiplier = userData.prestigeMultiplier ?? 1;
 const finalProduction = total * levelBonus * prestigeMultiplier;
 
 return Math.max(0, finalProduction);
+}
+
+
+// ============================================
+// DINERO NECESARIO PARA SUBIR DE NIVEL
+// ============================================
+
+function calculateMoneyRequired(level) {
+
+    const base = 2000;
+    const linear = level * 1500;
+    const exponential = Math.pow(level, 1.8) * 800;
+
+    return Math.floor(base + linear + exponential);
 }
 
 // ============================================
@@ -867,6 +867,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
