@@ -1,14 +1,5 @@
 // script.js
 // script.js
-
-console.log("JS CARGANDO");
-
-// ============================================
-// INICIALIZAR FIREBASE SERVICES
-// ============================================
-
-const db = firebase.firestore();
-const auth = firebase.auth();
 // ============================================
 // CONFIGURACIÓN INICIAl
 // ============================================
@@ -894,6 +885,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
