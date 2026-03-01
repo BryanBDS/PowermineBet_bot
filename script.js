@@ -57,10 +57,23 @@ async function initUser() {
 
     try {
 
-        if (!telegram?.initDataUnsafe?.user) {
-            showNotification("No se pudo obtener usuario Telegram", "error");
-            return;
-        }
+        let tgUser;
+
+if (telegram?.initDataUnsafe?.user) {
+
+    tgUser = telegram.initDataUnsafe.user;
+
+} else {
+
+    console.warn("Modo prueba activado (fuera de Telegram)");
+
+    tgUser = {
+        id: "test_user_123",
+        first_name: "Usuario Test",
+        username: "test",
+        photo_url: "https://via.placeholder.com/50"
+    };
+}
 
         const tgUser = telegram.initDataUnsafe.user;
         userId = tgUser.id.toString();
@@ -879,6 +892,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
