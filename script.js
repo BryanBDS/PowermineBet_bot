@@ -1,5 +1,7 @@
 // script.js
 // script.js
+
+console.log("JS CARGANDO");
 // ============================================
 // CONFIGURACIÓN INICIAl
 // ============================================
@@ -892,6 +894,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
