@@ -41,9 +41,13 @@ if (window.Telegram && window.Telegram.WebApp) {
     telegram.ready();
     telegram.expand();
 } else {
-    console.log("No está dentro de Telegram");
-}
+    console.log("No está dentro de Telegram");} 
+// ============================================
+// FIREBASE SERVICES
+// ============================================
 
+const db = firebase.firestore();
+const auth = firebase.auth();
 // ============================================
 // UTILIDADES
 // ============================================
@@ -907,6 +911,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
