@@ -666,7 +666,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         console.log("Autenticado en Firebase");
 
+        console.log("Esperando datos de Telegram...");
+
+setTimeout(() => {
+    if (telegram?.initDataUnsafe?.user) {
         initUser();
+    } else {
+        console.error("Telegram user no disponible");
+        showNotification("Error obteniendo usuario Telegram");
+        document.getElementById("loader").style.display = "none";
+    }
+}, 500);
 
         const mineBtn = document.getElementById("mine-btn");
         if (mineBtn) {
@@ -869,6 +879,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
