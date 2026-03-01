@@ -704,9 +704,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(() => {
 
         console.log("Autenticado en Firebase");
-
-        console.log("Esperando datos de Telegram...");
-
         // Iniciar usuario siempre
         initUser();
 
@@ -911,6 +908,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
