@@ -43,6 +43,15 @@ if (window.Telegram && window.Telegram.WebApp) {
 } else {
     console.log("No está dentro de Telegram");} 
 
+
+function formatNumber(num) {
+    if (num === undefined || num === null) return "0";
+
+    return Number(num).toLocaleString("es-ES", {
+        maximumFractionDigits: 2
+    });
+}
+
 // ============================================
 // UTILIDADES
 // ============================================
@@ -903,6 +912,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
