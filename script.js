@@ -170,12 +170,34 @@ if (telegram?.initDataUnsafe?.user) {
         document.getElementById("loader").style.display = "none";
 
         // Escuchar cambios en tiempo real
-        userRef.onSnapshot((doc) => {
-            if (doc.exists) {
-                userData = doc.data();
-                updateUI();
+        userRef.onSnapshot(async (doc) => {
+
+    if (!doc.exists) {
+
+        console.log("Usuario no existe, creando...");
+
+        await userRef.set({
+            name: "Jugador",
+            balance: 0,
+            totalEarned: 0,
+            stage: 1,
+            xp: 0,
+            buildings: {
+                miner1: { level: 0, baseCost: 50, baseProduction: 1, requiredLevel: 1 }
             }
         });
+
+        return;
+    }
+
+    userData = doc.data();
+
+    document.getElementById("loader").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    updateUI();
+});
+        
 
     } catch (error) {
         console.error("Error initUser:", error);
@@ -885,6 +907,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
