@@ -669,6 +669,25 @@ async function buyUpgrade(tipo) {
     }
 }
 
+
+
+async function activateVIP() {
+
+    if (!userId) return;
+
+    const userRef = db.collection("users").doc(userId);
+
+    const vipDuration = 24 * 60 * 60 * 1000; // 24 horas
+
+    await userRef.update({
+        vip: true,
+        vipExpires: Date.now() + vipDuration
+    });
+
+    showNotification("VIP Activado 🚀", "success");
+}
+
+
 // ============================================
 // RETIRO
 // ============================================
@@ -919,6 +938,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
