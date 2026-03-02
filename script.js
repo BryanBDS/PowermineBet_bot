@@ -157,6 +157,22 @@ if (telegram?.initDataUnsafe?.user) {
 
             await userRef.set(newUser);
             userData = newUser;
+            
+ // ============================================
+// RECOMPENSA POR REFERIDO
+// ============================================
+
+if (newUser.referrer) {
+
+    const referrerRef = db.collection("users").doc(newUser.referrer);
+
+    await referrerRef.update({
+        referrals: firebase.firestore.FieldValue.increment(1),
+        balance: firebase.firestore.FieldValue.increment(500)
+    });
+
+        }
+            
 
       } else {
     userData = doc.data();
@@ -1016,6 +1032,7 @@ startVIPCountdown();
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
