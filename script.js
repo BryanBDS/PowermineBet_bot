@@ -106,6 +106,8 @@ if (telegram?.initDataUnsafe?.user) {
     balance: 1000,
     energy: 100,
     maxEnergy: 100,
+    vip: false,
+    vipExpires: 0,            
     stage: 1,
     xp: 0,
     xpRequired: 100,            
@@ -486,13 +488,18 @@ function calculateProduction() {
     }
 
     const level = userData.stage ?? 1;
-const levelBonus = 1 + ((level - 1) * 0.02);
+    const levelBonus = 1 + ((level - 1) * 0.02);
 
-const prestigeMultiplier = userData.prestigeMultiplier ?? 1;
+    const prestigeMultiplier = userData.prestigeMultiplier ?? 1;
 
-const finalProduction = total * levelBonus * prestigeMultiplier;
+    let finalProduction = total * levelBonus * prestigeMultiplier;
 
-return Math.max(0, finalProduction);
+    // Aplicar VIP correctamente
+    if (userData.vip && Date.now() < userData.vipExpires) {
+        finalProduction *= 3; // VIP x3
+    }
+
+    return Math.max(0, finalProduction);
 }
 
 
@@ -912,6 +919,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
