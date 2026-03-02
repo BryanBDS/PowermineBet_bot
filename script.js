@@ -692,10 +692,18 @@ async function buyUpgrade(tipo) {
 }
 
 
-
 async function activateVIP() {
 
     if (!userId) return;
+
+    // ============================
+    // EVITAR DOBLE ACTIVACIÓN
+    // ============================
+
+    if (userData.vip && Date.now() < userData.vipExpires) {
+        showNotification("Ya tienes VIP activo 👑");
+        return;
+    }
 
     const userRef = db.collection("users").doc(userId);
 
@@ -706,7 +714,7 @@ async function activateVIP() {
         vipExpires: Date.now() + vipDuration
     });
 
-    showNotification("VIP Activado 🚀", "success");
+    showNotification("VIP Activado 🚀");
 }
 
 
@@ -960,6 +968,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
