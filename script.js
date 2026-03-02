@@ -719,6 +719,41 @@ async function activateVIP() {
 
 
 // ============================================
+// ACTUALIZADOR VIP EN TIEMPO REAL
+// ============================================
+
+function startVIPCountdown() {
+
+    setInterval(() => {
+
+        if (!userData) return;
+
+        const vipElement = document.getElementById("vip-status");
+        if (!vipElement) return;
+
+        if (userData.vip && Date.now() < userData.vipExpires) {
+
+            const timeLeft = userData.vipExpires - Date.now();
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            vipElement.textContent =
+                `👑 VIP Activo - ${hours}h ${minutes}m ${seconds}s`;
+
+        } else {
+
+            vipElement.textContent = "";
+
+            // Si expiró, desactivar VIP automáticamente
+            if (userData.vip && Date.now() >= userData.vipExpires) {
+                userData.vip = false;
+            }
+        }
+
+    }, 1000);
+}
+// ============================================
 // RETIRO
 // ============================================
 
@@ -964,10 +999,15 @@ async function addXP(amount) {
     await checkLevelUp();
 }
 
+
+
+startVIPCountdown();
+
 // Exponer funciones
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
