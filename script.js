@@ -40,6 +40,9 @@ if (window.Telegram && window.Telegram.WebApp) {
     telegram = window.Telegram.WebApp;
     telegram.ready();
     telegram.expand();
+    
+window.referralCode = telegram.initDataUnsafe?.start_param || null;
+    
 } else {
     console.log("No está dentro de Telegram");} 
 
@@ -1007,6 +1010,7 @@ startVIPCountdown();
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
