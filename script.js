@@ -447,6 +447,28 @@ if (totalBuildingsEl && userData.buildings) {
         const total = calculateProduction();
         totalProductionElement.textContent = formatNumber(Math.floor(total));
     }
+
+    // =====================================
+// MOSTRAR ESTADO VIP
+// =====================================
+
+const vipElement = document.getElementById("vip-status");
+
+if (vipElement) {
+
+    if (userData.vip && Date.now() < userData.vipExpires) {
+
+        const timeLeft = userData.vipExpires - Date.now();
+        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+
+        vipElement.textContent =
+            `👑 VIP Activo - ${hours}h ${minutes}m restantes`;
+
+    } else {
+        vipElement.textContent = "";
+    }
+}
 }
 
 
@@ -938,6 +960,7 @@ async function addXP(amount) {
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
