@@ -41,7 +41,11 @@ if (window.Telegram && window.Telegram.WebApp) {
     telegram.ready();
     telegram.expand();
     
-window.referralCode = telegram.initDataUnsafe?.start_param || null;
+window.referralCode = null;
+
+if (telegram.initDataUnsafe && telegram.initDataUnsafe.start_param) {
+    window.referralCode = telegram.initDataUnsafe.start_param;
+}
     
 } else {
     console.log("No está dentro de Telegram");} 
@@ -116,7 +120,9 @@ if (telegram?.initDataUnsafe?.user) {
     xpRequired: 100,            
     prestigePoints: 0,
     prestigeMultiplier: 1,
-    referrer: null,
+    referrer: window.referralCode && window.referralCode !== userId 
+          ? window.referralCode 
+          : null,
     referrals: 0,           
     totalEarned: 1000,
     lastUpdate: Date.now(),
@@ -1010,6 +1016,7 @@ startVIPCountdown();
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
