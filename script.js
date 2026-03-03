@@ -232,7 +232,8 @@ if (newUser.referrer) {
     document.getElementById("app").style.display = "block";
 
     updateUI();
-    checkReferralRewards();        
+    checkReferralRewards();   
+    loadRanking();       
 });
         
 
@@ -542,6 +543,44 @@ async function checkReferralRewards() {
             showNotification(`🎉 Ganaste ${r.reward} pts por ${r.referrals} referidos!`);
         }
     }
+}
+
+
+// ============================================
+// CARGAR RANKING GLOBAL
+// ============================================
+
+function loadRanking() {
+
+    const rankingList = document.getElementById("ranking-list");
+    if (!rankingList) return;
+
+    db.collection("users")
+        .orderBy("totalEarned", "desc")
+        .limit(10)
+        .onSnapshot(snapshot => {
+
+            rankingList.innerHTML = "";
+
+            let position = 1;
+
+            snapshot.forEach(doc => {
+
+                const data = doc.data();
+
+                const div = document.createElement("div");
+                div.classList.add("ranking-item");
+
+                div.innerHTML = `
+                    <strong>#${position}</strong> 
+                    ${data.username ?? "Usuario"} 
+                    - ${formatNumber(data.totalEarned ?? 0)} pts
+                `;
+
+                rankingList.appendChild(div);
+                position++;
+            });
+        });
 }
 
 
@@ -1118,6 +1157,7 @@ startVIPCountdown();
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
