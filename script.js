@@ -561,6 +561,17 @@ function calculateProduction() {
         finalProduction *= 3; // VIP x3
     }
 
+    // ============================================
+    // BONO POR REFERIDOS (5% POR CADA UNO)
+    // ============================================
+
+    if (userData.referrals && userData.referrals > 0) {
+
+        const referralBonus = finalProduction * (0.05 * userData.referrals);
+
+        finalProduction += referralBonus;
+    }
+
     return Math.max(0, finalProduction);
 }
 
@@ -1066,6 +1077,7 @@ startVIPCountdown();
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
