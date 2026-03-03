@@ -793,6 +793,25 @@ function startVIPCountdown() {
 
     }, 1000);
 }
+
+// ============================================
+// COPIAR ENLACE DE REFERIDO
+// ============================================
+
+function copyRefLink() {
+
+    const input = document.getElementById("ref-link");
+    if (!input) return;
+
+    input.select();
+    input.setSelectionRange(0, 99999);
+
+    navigator.clipboard.writeText(input.value);
+
+    showNotification("Enlace copiado 📋");
+}
+
+
 // ============================================
 // RETIRO
 // ============================================
@@ -1047,6 +1066,7 @@ startVIPCountdown();
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
