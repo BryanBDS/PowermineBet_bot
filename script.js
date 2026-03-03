@@ -957,9 +957,14 @@ document.addEventListener("DOMContentLoaded", () => {
             mineBtn.addEventListener("click", startMining);
         }
 
+        let isUpdatingProduction = false;
+
         //  PRODUCCIÓN AUTOMÁTICA (solo una vez)
         setInterval(async () => {
 
+            if (isUpdatingProduction) return;
+                isUpdatingProduction = true;
+            
             if (!userData || !userId) return;
 
             const production = calculateProduction() * turboMultiplier;
@@ -971,7 +976,8 @@ document.addEventListener("DOMContentLoaded", () => {
          balance: firebase.firestore.FieldValue.increment(production),
         totalEarned: firebase.firestore.FieldValue.increment(production)
 });
-
+            
+isUpdatingProduction = false;
 await checkLevelUp();
 
         }, Game.productionInterval);
@@ -1157,6 +1163,7 @@ startVIPCountdown();
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
