@@ -123,7 +123,8 @@ if (telegram?.initDataUnsafe?.user) {
     referrer: window.referralCode && window.referralCode !== userId 
           ? window.referralCode 
           : null,
-    referrals: 0,           
+    referrals: 0,  
+    referralRewardsClaimed: [],            
     totalEarned: 1000,
     lastUpdate: Date.now(),
 
@@ -231,6 +232,7 @@ if (newUser.referrer) {
     document.getElementById("app").style.display = "block";
 
     updateUI();
+    checkReferralRewards();        
 });
         
 
@@ -510,6 +512,38 @@ if (vipElement) {
     }
 }
 }
+
+    // ============================================
+// VERIFICAR RECOMPENSAS POR REFERIDOS
+// ============================================
+
+async function checkReferralRewards() {
+
+    if (!userData || !userId) return;
+
+    const rewards = [
+        { referrals: 5, reward: 2000 },
+        { referrals: 10, reward: 5000 }
+    ];
+
+    for (let r of rewards) {
+
+        const alreadyClaimed = userData.referralRewardsClaimed?.includes(r.referrals);
+
+        if (userData.referrals >= r.referrals && !alreadyClaimed) {
+
+            const userRef = db.collection("users").doc(userId);
+
+            await userRef.update({
+                balance: firebase.firestore.FieldValue.increment(r.reward),
+                referralRewardsClaimed: firebase.firestore.FieldValue.arrayUnion(r.referrals)
+            });
+
+            showNotification(`🎉 Ganaste ${r.reward} pts por ${r.referrals} referidos!`);
+        }
+    }
+}
+
 
 
 function updateXPBar() {
@@ -1084,6 +1118,7 @@ startVIPCountdown();
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
