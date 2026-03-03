@@ -471,6 +471,21 @@ if (totalBuildingsEl && userData.buildings) {
     if (totalProductionElement) {
         const total = calculateProduction();
         totalProductionElement.textContent = formatNumber(Math.floor(total));
+
+        // ============================================
+// ACTUALIZAR SISTEMA DE REFERIDOS
+// ============================================
+
+const refCountEl = document.getElementById("ref-count");
+const refLinkEl = document.getElementById("ref-link");
+
+if (refCountEl && userData) {
+    refCountEl.textContent = userData.referrals ?? 0;
+}
+
+if (refLinkEl && userId) {
+    refLinkEl.value = `https://t.me/PowermineBet_bot?start=${userId}`;
+}
     }
 
     // =====================================
@@ -1032,6 +1047,7 @@ startVIPCountdown();
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
