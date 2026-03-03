@@ -562,16 +562,23 @@ function calculateProduction() {
     }
 
     // ============================================
-    // BONO POR REFERIDOS (5% POR CADA UNO)
-    // ============================================
+// ============================================
+// BONO POR REFERIDOS (5% CADA UNO - MÁX 50%)
+// ============================================
 
-    if (userData.referrals && userData.referrals > 0) {
+if (userData.referrals && userData.referrals > 0) {
 
-        const referralBonus = finalProduction * (0.05 * userData.referrals);
+    const referralPercent = 0.05 * userData.referrals;
 
-        finalProduction += referralBonus;
-    }
+    // Limitar máximo a 50%
+    const cappedPercent = Math.min(referralPercent, 0.5);
 
+    const referralBonus = finalProduction * cappedPercent;
+
+    finalProduction += referralBonus;
+        }
+
+    
     return Math.max(0, finalProduction);
 }
 
@@ -1077,6 +1084,7 @@ startVIPCountdown();
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
