@@ -848,6 +848,34 @@ async function activateVIP() {
     showNotification("VIP Activado 🚀");
 }
 
+// ============================================
+// COMPRAR VIP CON TELEGRAM STARS
+// ============================================
+
+function buyVIPWithStars() {
+
+    if (!window.Telegram || !Telegram.WebApp) {
+        showNotification("Pago solo disponible en Telegram");
+        return;
+    }
+
+    const invoiceLink = "https://t.me/PowermineBet_bot?start=buy_vip";
+
+    Telegram.WebApp.openInvoice(invoiceLink, status => {
+
+        if (status === "paid") {
+
+            activateVIP(); // Activa VIP después del pago
+            showNotification("👑 VIP activado por 24h");
+
+        } else if (status === "failed") {
+
+            showNotification("Pago cancelado");
+
+        }
+    });
+}
+
 
 // ============================================
 // ACTUALIZADOR VIP EN TIEMPO REAL
@@ -1163,6 +1191,7 @@ startVIPCountdown();
 window.buyUpgrade = buyUpgrade;
 window.withdraw = withdraw;
 window.buyBuilding = buyBuilding;
+
 
 
 
